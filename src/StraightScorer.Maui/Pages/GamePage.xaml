@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:StraightScorer.Maui.Pages"
+             xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
+             x:Class="StraightScorer.Maui.Pages.GamePage"
+             Title="GamePage"
+             x:DataType="vm:GameViewModel">
+    <VerticalStackLayout>
+        <Label 
+            Text="Game Page"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
