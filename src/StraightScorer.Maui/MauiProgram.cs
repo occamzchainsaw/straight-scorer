@@ -1,6 +1,11 @@
 ﻿using HorusStudio.Maui.MaterialDesignControls;
 using Microsoft.Extensions.Logging;
+using Mopups.Hosting;
+using Mopups.Interfaces;
+using Mopups.Services;
+using StraightScorer.Maui.Pages;
 using StraightScorer.Maui.Services;
+using StraightScorer.Maui.Services.Interfaces;
 using StraightScorer.Maui.ViewModels;
 
 namespace StraightScorer.Maui;
@@ -15,24 +20,32 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.UseMaterialDesignControls(options =>
-			{
-				options.ConfigureFonts(fonts =>
-				{
-					fonts.AddFont("GoogleSans-Regular.ttf", FontRegular);
-					fonts.AddFont("GoogleSans-SemiBold.ttf", FontSemibold);
-					fonts.AddFont("GoogleSans-Bold.ttf", FontBold);
-				}, new(FontRegular, FontSemibold, FontBold));
-			});
+			.UseMaterialDesignControls()
+			//.UseMaterialDesignControls(options =>
+			//{
+			//	options.ConfigureFonts(fonts =>
+			//	{
+			//		fonts.AddFont("GoogleSans-Regular.ttf", FontRegular);
+			//		fonts.AddFont("GoogleSans-SemiBold.ttf", FontSemibold);
+			//		fonts.AddFont("GoogleSans-Bold.ttf", FontBold);
+			//	}, new(FontRegular, FontSemibold, FontRegular));
+			//})
+			.ConfigureMopups();
 
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
 		builder.Services.AddSingleton<GameSession>();
+		builder.Services.AddSingleton<IUndoRedoService, UndoRedoService>();
+		builder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
+
 		builder.Services.AddTransient<GameSetupViewModel>();
 		builder.Services.AddTransient<GameViewModel>();
 
-		return builder.Build();
+		builder.Services.AddTransient<GamePage>();
+		builder.Services.AddTransient<SetupPage>();
+
+        return builder.Build();
 	}
 }

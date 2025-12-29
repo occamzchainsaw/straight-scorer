@@ -7,35 +7,38 @@ namespace StraightScorer.Maui.Services.Commands;
 public class MissCommand : IUndoRedoCommand
 {
     private readonly GameViewModel _gameVm;
-    private readonly int _nextPlayerIndex;
-    private PlayerViewModel _previousPlayerVm = null!;
-    private int _previousPlayerIndex;
+    private PlayerViewModel? _player1Previous = null!;
+    private PlayerViewModel? _player2Previous = null!;
+    private PlayerViewModel? _playerAtTablePrevious = null!;
 
-    public MissCommand(GameViewModel gameVm, int nextPlayerIndex)
+    public MissCommand(GameViewModel gameVm)
     {
         _gameVm = gameVm;
-        _nextPlayerIndex = nextPlayerIndex;
     }
     
     public void Execute()
     {
-        _previousPlayerIndex = _gameVm.PlayerAtTableIndex;
-        _previousPlayerVm = _gameVm.PlayerAtTable;
-        ResetPlayerBreak();
-        _gameVm.PlayerAtTableIndex = _nextPlayerIndex;
-        _gameVm.PlayerAtTable = _gameVm.Players[_nextPlayerIndex];
+        _player1Previous = _gameVm.Player1;
+        _player2Previous = _gameVm.Player2;
+        _playerAtTablePrevious = _gameVm.PlayerAtTable;
+
+        _gameVm.PlayerAtTable.ConsecutiveFouls = 0;
+        _gameVm.PlayerAtTable.CurrentBreak = 0;
+        _gameVm.PlayerAtTable.IsAtTable = false;
+
+        _gameVm.PlayerAtTable = _playerAtTablePrevious.Index == 1 ? _gameVm.Player2 : _gameVm.Player1;
+        _gameVm.PlayerAtTable.IsAtTable = true;
+
+        //todo: add last break to history
     }
 
     public void Undo()
     {
-        _gameVm.PlayerAtTableIndex = _previousPlayerIndex;
-        _gameVm.PlayerAtTable = _previousPlayerVm;
-    }
-
-    private void ResetPlayerBreak()
-    {
-        _gameVm.PlayerAtTable.Score += _gameVm.PlayerAtTable.CurrentBreak;
-        _gameVm.PlayerAtTable.ConsecutiveFouls = 0;
-        _gameVm.PlayerAtTable.CurrentBreak = 0;
+        _gameVm.Player1 = _player1Previous ??
+            throw new NullReferenceException("Player 1 previous state was not saved");
+        _gameVm.Player2 = _player2Previous ??
+            throw new NullReferenceException("Player 2 previous state was not saved");
+        _gameVm.PlayerAtTable = _playerAtTablePrevious ??
+            throw new NullReferenceException("Player at table previous state was not saved");
     }
 }

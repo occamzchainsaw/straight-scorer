@@ -8,8 +8,11 @@
     Title="StraightScorer.Maui">
 
     <ShellContent
-        Title="Home"
         ContentTemplate="{DataTemplate pages:SetupPage}"
         Route="setup" />
+
+    <ShellContent
+        ContentTemplate="{DataTemplate pages:GamePage}"
+        Route="game" />
 
 </Shell>

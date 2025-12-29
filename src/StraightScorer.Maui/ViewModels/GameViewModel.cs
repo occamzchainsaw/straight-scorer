@@ -1,10 +1,12 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Mopups.Interfaces;
 using StraightScorer.Maui.Models;
 using StraightScorer.Maui.Services;
 using StraightScorer.Maui.Services.Commands;
 using StraightScorer.Maui.Services.Interfaces;
+using StraightScorer.Maui.Views;
+using System.Threading.Tasks;
 
 namespace StraightScorer.Maui.ViewModels;
 
@@ -12,24 +14,39 @@ public partial class GameViewModel : BaseViewModel
 {
     private readonly GameSession _gameSession;
     private readonly IUndoRedoService _undoRedoService;
+    private readonly IPopupNavigation _popupNavigation;
 
     public GameViewModel(GameSession gameSession,
-        IUndoRedoService undoRedoService)
+        IUndoRedoService undoRedoService,
+        IPopupNavigation popupNavigation)
     {
         _gameSession = gameSession;
         _undoRedoService = undoRedoService;
-        Players = [.. _gameSession.Players.Select(p => new PlayerViewModel(p))];
-        PlayerAtTableIndex = _gameSession.PlayerAtTableIndex;
-        PlayerAtTable = Players[PlayerAtTableIndex];
+        _popupNavigation = popupNavigation;
+        Player1 = new PlayerViewModel(_gameSession.Player1);
+        Player2 = new PlayerViewModel(_gameSession.Player2);
+
+        if (Player1.IsAtTable)
+            PlayerAtTable = Player1;
+        else
+            PlayerAtTable = Player2;
+
         BallsOnTable = _gameSession.BallsOnTable;
         TargetScore = _gameSession.TargetScore;
+
+        Title = "Match In Progress";
     }
 
-    public ObservableCollection<PlayerViewModel> Players { get; }
     [ObservableProperty]
-    private int _playerAtTableIndex;
+    private PlayerViewModel _player1;
+    [ObservableProperty]
+    private PlayerViewModel _player2;
     [ObservableProperty]
     private PlayerViewModel _playerAtTable;
+    [ObservableProperty]
+    private int _pointsToAdd;
+    [ObservableProperty]
+    private bool _pointsInputError;
     [ObservableProperty]
     private int _ballsOnTable;
     [ObservableProperty]
@@ -40,30 +57,51 @@ public partial class GameViewModel : BaseViewModel
     private PlayerViewModel? _winnerPlayer;
 
     [RelayCommand]
-    void AddPoints(int points)
+    private async Task AddPoints(int points)
     {
+        if (PointsToAdd < 0)
+        {
+            PointsInputError = true;
+            return;
+        }
+
+        PointsInputError = false;
         var cmd = new AddPointsCommand(this, points);
         _undoRedoService.ExecuteAndAdd(cmd);
+        await _popupNavigation.PopAllAsync();
     }
 
     [RelayCommand]
-    void Miss()
+    private async Task ShowAddPointsPopup()
     {
-        int nextPlayerIndex = PlayerAtTableIndex == Players.Count-1 ? 0 : PlayerAtTableIndex+1;
-        MissCommand cmd = new(this, nextPlayerIndex);
+        PointsInputError = false;
+        await _popupNavigation.PushAsync(new AddPointsPopup(this));
+    }
+
+    [RelayCommand]
+    private async Task CancelAddPoints()
+    {
+        PointsToAdd = 0;
+        PointsInputError = false;
+        await _popupNavigation.PopAsync();
+    }
+
+    [RelayCommand]
+    private void Miss()
+    {
+        MissCommand cmd = new(this);
         _undoRedoService.ExecuteAndAdd(cmd);
     }
 
     [RelayCommand]
-    void Foul()
+    private void Foul()
     {
-        int nextPlayerIndex = PlayerAtTableIndex == Players.Count-1 ? 0 : PlayerAtTableIndex+1;
-        FoulCommand cmd = new(this, nextPlayerIndex);
+        FoulCommand cmd = new(this);
         _undoRedoService.ExecuteAndAdd(cmd);
     }
 
     [RelayCommand]
-    void UndoLastAction()
+    private void UndoLastAction()
     {
         _undoRedoService.Undo();
     }

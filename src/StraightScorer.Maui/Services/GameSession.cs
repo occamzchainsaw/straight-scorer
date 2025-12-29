@@ -4,9 +4,11 @@ namespace StraightScorer.Maui.Services;
 
 public class GameSession
 {
-    public List<Player> Players { get; set; } = [];
+    public Player Player1 { get; set; } = new();
+    public Player Player2 { get; set; } = new();
     public int BallsOnTable { get; set; } = 15;
-    public int PlayerAtTableIndex { get; set; }
-    public int StartingPlayerIndex { get; set; }
     public int TargetScore { get; set; }
+    public Player? PlayerAtTable { get; set; } = null;
+
+    //todo: add break history as List<Break>
 }

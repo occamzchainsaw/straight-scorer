@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
+             xmlns:models="clr-namespace:StraightScorer.Maui.Models"
+             xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
+             x:Class="StraightScorer.Maui.Views.CurrentBreakView"
+             x:DataType="vm:GameViewModel">
+    <Grid
+        RowDefinitions="*,Auto"
+        RowSpacing="24"
+        ColumnDefinitions="*,*,*,*"
+        ColumnSpacing="16"
+        Padding="16,0,16,16">
+        <material:MaterialLabel
+            Grid.Row="0" Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Type="HeadlineLarge"
+            VerticalOptions="Center"
+            HorizontalOptions="Start"
+            Text="{Binding PlayerAtTable.Name}"/>
+        <material:MaterialLabel
+            Grid.Row="0" Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Type="HeadlineLarge"
+            VerticalOptions="Center"
+            HorizontalOptions="End"
+            Text="{Binding PlayerAtTable.CurrentBreak}"/>
+        <material:MaterialButton
+            Grid.Row="1" Grid.Column="0"
+            Type="Elevated"
+            Text="+1"
+            HeightRequest="68"
+            CornerRadius="64"
+            Command="{Binding AddPointsCommand}"
+            CommandParameter="{x:Int32 1}"/>
+        <material:MaterialButton
+            Grid.Row="1" Grid.Column="1"
+            Type="Elevated"
+            Text="+N"
+            HeightRequest="68"
+            CornerRadius="64"
+            Command="{Binding ShowAddPointsPopupCommand}"/>
+        <material:MaterialButton
+            Grid.Row="1" Grid.Column="2"
+            Type="Elevated"
+            Text="M"
+            HeightRequest="68"
+            CornerRadius="64"
+            Command="{Binding MissCommand}"/>
+        <material:MaterialButton
+            Grid.Row="1" Grid.Column="3"
+            Type="Elevated"
+            Text="F"
+            HeightRequest="68"
+            CornerRadius="64"
+            Command="{Binding FoulCommand}"/>
+    </Grid>
+</ContentView>

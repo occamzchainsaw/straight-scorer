@@ -3,13 +3,77 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:StraightScorer.Maui.Pages"
              xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
+             xmlns:views="clr-namespace:StraightScorer.Maui.Views"
+             xmlns:models="clr-namespace:StraightScorer.Maui.Models"
+             xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
              x:Class="StraightScorer.Maui.Pages.SetupPage"
-             Title="SetupPage"
-             x:DataType="vm:GameSetupViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="Setup Page"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="vm:GameSetupViewModel"
+             BackgroundColor="{AppThemeBinding Light={x:Static material:MaterialLightTheme.Surface}, Dark={x:Static material:MaterialDarkTheme.Surface}}">
+    <views:PageWithTopBar>
+        <views:PageWithTopBar.PageContent>
+            <Grid
+                RowDefinitions="48,*,48"
+                RowSpacing="36">
+                <material:MaterialTextField
+                    Grid.Row="0"
+                    Type="Outlined"
+                    AlwaysShowLabel="False"
+                    Placeholder="Target Score"
+                    Keyboard="Numeric"
+                    MaxLength="3"
+                    Text="{Binding TargetScore}"
+                    HasError="{Binding TargetScoreInputError}"
+                    ReturnCommand="{Binding ValidateTargetScoreCommand}"/>
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Spacing="8">
+                    <material:MaterialCard
+                        Type="Filled">
+                        <Grid
+                            ColumnDefinitions="*,100">
+                            <material:MaterialLabel
+                                Grid.Column="0"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start"
+                                Type="TitleMedium"
+                                Text="{Binding SetupPlayer1.Name}"/>
+                            <material:MaterialButton
+                                Grid.Column="1"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End"
+                                Text="Edit"
+                                Command="{Binding OpenEditPopupCommand}"
+                                CommandParameter="{Binding SetupPlayer1}"/>
+                        </Grid>
+                    </material:MaterialCard>
+                    <material:MaterialCard
+                        Type="Filled">
+                        <Grid
+                            ColumnDefinitions="*,100">
+                            <material:MaterialLabel
+                                Grid.Column="0"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start"
+                                Type="TitleMedium"
+                                Text="{Binding SetupPlayer2.Name}"/>
+                            <material:MaterialButton
+                                Grid.Column="1"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End"
+                                Text="Edit"
+                                Command="{Binding OpenEditPopupCommand}"
+                                CommandParameter="{Binding SetupPlayer2}"/>
+                        </Grid>
+                    </material:MaterialCard>
+                </VerticalStackLayout>
+                <material:MaterialButton
+                    Grid.Row="2"
+                    Type="Filled"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End"
+                    Text="Start Match"
+                    Command="{Binding StartGameCommand}"/>
+            </Grid>
+        </views:PageWithTopBar.PageContent>
+    </views:PageWithTopBar>
 </ContentPage>

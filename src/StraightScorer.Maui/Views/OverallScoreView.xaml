@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
+             xmlns:models="clr-namespace:StraightScorer.Maui.Models"
+             xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
+             x:Class="StraightScorer.Maui.Views.OverallScoreView"
+             x:DataType="vm:GameViewModel">
+
+    <ContentView.Resources>
+        <Style TargetType="RoundRectangle">
+            <Setter Property="Margin" Value="0,4,0,4"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Fill"/>
+            <Setter Property="WidthRequest" Value="5"/>
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={x:Static material:MaterialLightTheme.Primary}, Dark={x:Static material:MaterialDarkTheme.Primary}}"/>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow
+                        Brush="{Binding BackgroundColor, Source={RelativeSource Self}}"
+                        Opacity="0.4"
+                        Radius="8"
+                        Offset="0,0"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PlayerNameLabelStyle" TargetType="material:MaterialLabel">
+            <Setter Property="Type" Value="TitleLarge"/>
+        </Style>
+        <Style x:Key="ScoreLabelStyle" TargetType="material:MaterialLabel">
+            <Setter Property="Type" Value="DisplaySmall"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+    </ContentView.Resources>
+
+    <Grid
+        ColumnDefinitions="*,*">
+        <Grid
+            Grid.Column="0"
+            RowDefinitions="36,*"
+            ColumnDefinitions="16,*"
+            ColumnSpacing="12">
+            <RoundRectangle
+                Grid.Row="0" Grid.Column="0"
+                Grid.RowSpan="2"
+                IsVisible="{Binding Player1.IsAtTable}"/>
+            <material:MaterialLabel
+                Grid.Row="0" Grid.Column="1"
+                Style="{StaticResource PlayerNameLabelStyle}"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Text="{Binding Player1.Name}"/>
+            <material:MaterialLabel
+                Grid.Row="1" Grid.Column="1"
+                Style="{StaticResource ScoreLabelStyle}"
+                HorizontalOptions="Start"
+                VerticalOptions="End"
+                Text="{Binding Player1.Score}"/>
+        </Grid>
+        <Grid
+            Grid.Column="1"
+            RowDefinitions="36,*"
+            ColumnDefinitions="*,16"
+            ColumnSpacing="16">
+            <material:MaterialLabel
+                Grid.Row="0" Grid.Column="0"
+                Style="{StaticResource PlayerNameLabelStyle}"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Text="{Binding Player2.Name}"/>
+            <material:MaterialLabel
+                Grid.Row="1" Grid.Column="0"
+                Style="{StaticResource ScoreLabelStyle}"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Text="{Binding Player2.Score}"/>
+            <RoundRectangle
+                Grid.Row="0" Grid.Column="1"
+                Grid.RowSpan="2"
+                IsVisible="{Binding Player2.IsAtTable}"/>
+        </Grid>
+    </Grid>
+</ContentView>
