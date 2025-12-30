@@ -4,11 +4,12 @@
              xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
              xmlns:models="clr-namespace:StraightScorer.Maui.Models"
              xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
+             xmlns:behaviors="clr-namespace:StraightScorer.Maui.Behaviors"
              x:Class="StraightScorer.Maui.Views.OverallScoreView"
              x:DataType="vm:GameViewModel">
 
     <ContentView.Resources>
-        <Style TargetType="RoundRectangle">
+        <Style x:Key="AtTableIndicatorStyle" TargetType="RoundRectangle">
             <Setter Property="Margin" Value="0,4,0,4"/>
             <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
@@ -20,7 +21,7 @@
                     <Shadow
                         Brush="{Binding BackgroundColor, Source={RelativeSource Self}}"
                         Opacity="0.4"
-                        Radius="8"
+                        Radius="6"
                         Offset="0,0"/>
                 </Setter.Value>
             </Setter>
@@ -40,45 +41,57 @@
             Grid.Column="0"
             RowDefinitions="36,*"
             ColumnDefinitions="16,*"
-            ColumnSpacing="12">
+            ColumnSpacing="12"
+            BindingContext="{Binding Player1}"
+            x:DataType="models:PlayerViewModel">
             <RoundRectangle
                 Grid.Row="0" Grid.Column="0"
                 Grid.RowSpan="2"
-                IsVisible="{Binding Player1.IsAtTable}"/>
+                Style="{StaticResource AtTableIndicatorStyle}">
+                <RoundRectangle.Behaviors>
+                    <behaviors:ActivePlayerIndicatorBehavior IsActive="{Binding IsAtTable}"/>
+                </RoundRectangle.Behaviors>
+            </RoundRectangle>
             <material:MaterialLabel
                 Grid.Row="0" Grid.Column="1"
                 Style="{StaticResource PlayerNameLabelStyle}"
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
-                Text="{Binding Player1.Name}"/>
+                Text="{Binding Name}"/>
             <material:MaterialLabel
                 Grid.Row="1" Grid.Column="1"
                 Style="{StaticResource ScoreLabelStyle}"
                 HorizontalOptions="Start"
                 VerticalOptions="End"
-                Text="{Binding Player1.Score}"/>
+                Text="{Binding Score}"/>
         </Grid>
         <Grid
             Grid.Column="1"
             RowDefinitions="36,*"
             ColumnDefinitions="*,16"
-            ColumnSpacing="16">
+            ColumnSpacing="16"
+            BindingContext="{Binding Player2}"
+            x:DataType="models:PlayerViewModel">
             <material:MaterialLabel
                 Grid.Row="0" Grid.Column="0"
                 Style="{StaticResource PlayerNameLabelStyle}"
                 HorizontalOptions="End"
                 VerticalOptions="Center"
-                Text="{Binding Player2.Name}"/>
+                Text="{Binding Name}"/>
             <material:MaterialLabel
                 Grid.Row="1" Grid.Column="0"
                 Style="{StaticResource ScoreLabelStyle}"
                 HorizontalOptions="End"
                 VerticalOptions="End"
-                Text="{Binding Player2.Score}"/>
+                Text="{Binding Score}"/>
             <RoundRectangle
                 Grid.Row="0" Grid.Column="1"
                 Grid.RowSpan="2"
-                IsVisible="{Binding Player2.IsAtTable}"/>
+                Style="{StaticResource AtTableIndicatorStyle}">
+                <RoundRectangle.Behaviors>
+                    <behaviors:ActivePlayerIndicatorBehavior IsActive="{Binding IsAtTable}"/>
+                </RoundRectangle.Behaviors>
+            </RoundRectangle>
         </Grid>
     </Grid>
 </ContentView>

@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using Mopups.Interfaces;
 using StraightScorer.Maui.Models;
 using StraightScorer.Maui.Services;
-using StraightScorer.Maui.Views;
 
 namespace StraightScorer.Maui.ViewModels;
 
@@ -20,23 +19,32 @@ public partial class GameSetupViewModel : BaseViewModel
         SetupPlayer1.IsStarting = true;
         Title = "Setup";
         Subtitle = "Setup your game of straight pool";
+
+        SetupPlayer1.IsStartingChangedEvent += Player1IsStartingChanged;
+        SetupPlayer2.IsStartingChangedEvent += Player2IsStartingChanged;
     }
 
     [ObservableProperty]
     private int _targetScore = 100;
     [ObservableProperty]
     private bool _targetScoreInputError;
-    [ObservableProperty]
-    private PlayerSetupDto? _editingPlayer;
-    [ObservableProperty]
-    private bool _editHeadStartInputError;
-
-    private PlayerSetupDto? _originalPlayer;
 
     [ObservableProperty]
     private PlayerSetupDto _setupPlayer1 = new(1);
     [ObservableProperty]
     private PlayerSetupDto _setupPlayer2 = new(2);
+
+    private void Player1IsStartingChanged()
+    {
+        if (SetupPlayer1.IsStarting)
+            SetupPlayer2.IsStarting = false;
+    }
+
+    private void Player2IsStartingChanged()
+    {
+        if (SetupPlayer2.IsStarting)
+            SetupPlayer1.IsStarting = false;
+    }
 
     [RelayCommand]
     private void ValidateTargetScore()
@@ -45,53 +53,9 @@ public partial class GameSetupViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private void ValidateHeadStart()
+    private void ValidateHeadStart(PlayerSetupDto player)
     {
-        EditHeadStartInputError = EditingPlayer is null || EditingPlayer.HeadStart < 0;
-    }
-
-    [RelayCommand]
-    private async Task OpenEditPopup(PlayerSetupDto player)
-    {
-        _originalPlayer = player;
-        EditingPlayer = new PlayerSetupDto
-        {
-            Name = player.Name,
-            HeadStart = player.HeadStart,
-            IsStarting = player.IsStarting,
-        };
-
-        await _popupNavigation.PushAsync(new EditPlayerPopup(this));
-    }
-
-    [RelayCommand]
-    private async Task SavePlayerEdits()
-    {
-        if (_originalPlayer is null || EditingPlayer is null)
-            return;
-
-        ValidateHeadStart();
-        if (EditHeadStartInputError)
-            return;
-
-        _originalPlayer.Name = EditingPlayer.Name;
-        _originalPlayer.HeadStart = Math.Max(0, Math.Min(EditingPlayer.HeadStart, TargetScore-1));
-        _originalPlayer.IsStarting = EditingPlayer.IsStarting;
-        if (_originalPlayer.Index == 1 && _originalPlayer.IsStarting)
-            SetupPlayer2.IsStarting = false;
-        else if (_originalPlayer.Index == 2 && _originalPlayer.IsStarting)
-            SetupPlayer1.IsStarting = false;
-
-        if (!SetupPlayer1.IsStarting && !SetupPlayer2.IsStarting)
-            SetupPlayer1.IsStarting = true;
-
-        await _popupNavigation.PopAsync();
-    }
-
-    [RelayCommand]
-    private async Task CancelPlayerEdit()
-    {
-        await _popupNavigation.PopAsync();
+        player.HeadStartInputError = player.HeadStart < 0 || player.HeadStart >= TargetScore;
     }
 
     [RelayCommand]

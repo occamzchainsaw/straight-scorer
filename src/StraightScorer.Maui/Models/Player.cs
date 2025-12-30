@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Java.Lang;
 
 namespace StraightScorer.Maui.Models;
 
@@ -30,7 +31,12 @@ public partial class PlayerSetupDto : ObservableObject
     private int _headStart;
 
     [ObservableProperty]
+    private bool _headStartInputError;
+
+    [ObservableProperty]
     private bool _isStarting;
+
+    public Action? IsStartingChangedEvent;
 
     public PlayerSetupDto() { }
 
@@ -38,6 +44,11 @@ public partial class PlayerSetupDto : ObservableObject
     {
         Index = index;
         Name = $"Player {index}";
+    }
+
+    partial void OnIsStartingChanged(bool value)
+    {
+        IsStartingChangedEvent?.Invoke();
     }
 }
 

@@ -6,7 +6,6 @@ using StraightScorer.Maui.Services;
 using StraightScorer.Maui.Services.Commands;
 using StraightScorer.Maui.Services.Interfaces;
 using StraightScorer.Maui.Views;
-using System.Threading.Tasks;
 
 namespace StraightScorer.Maui.ViewModels;
 

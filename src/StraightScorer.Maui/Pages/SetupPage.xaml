@@ -28,41 +28,101 @@
                     Grid.Row="1"
                     Spacing="8">
                     <material:MaterialCard
-                        Type="Filled">
+                        Type="Filled"
+                        BindingContext="{Binding SetupPlayer1}"
+                        x:DataType="models:PlayerSetupDto">
                         <Grid
-                            ColumnDefinitions="*,100">
-                            <material:MaterialLabel
-                                Grid.Column="0"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Start"
-                                Type="TitleMedium"
-                                Text="{Binding SetupPlayer1.Name}"/>
-                            <material:MaterialButton
-                                Grid.Column="1"
-                                VerticalOptions="Center"
-                                HorizontalOptions="End"
-                                Text="Edit"
-                                Command="{Binding OpenEditPopupCommand}"
-                                CommandParameter="{Binding SetupPlayer1}"/>
+                            RowDefinitions="*,*"
+                            RowSpacing="8"
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="16">
+                            <material:MaterialTextField
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2"
+                                Type="Outlined"
+                                Label="Name"
+                                AlwaysShowLabel="True"
+                                Placeholder="Player Name"
+                                Text="{Binding Name}"
+                                MaxLength="25"/>
+                            <material:MaterialTextField
+                                Grid.Row="1" Grid.Column="0"
+                                Type="Outlined"
+                                Keyboard="Numeric"
+                                Label="Head Start"
+                                AlwaysShowLabel="True"
+                                Placeholder="0"
+                                MaxLength="3"
+                                Text="{Binding HeadStart}"
+                                HasError="{Binding HeadStartInputError}"
+                                ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:GameSetupViewModel}}, Path=ValidateHeadStartCommand}"
+                                ReturnCommandParameter="{Binding .}"/>
+                            <Grid
+                                Grid.Row="1" Grid.Column="1"
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="2"
+                                Padding="0,4,2,0">
+                                <material:MaterialLabel
+                                    Grid.Column="0"
+                                    Type="BodyMedium"
+                                    Text="Starts the match"
+                                    VerticalOptions="Center"/>
+                                <material:MaterialSwitch
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Text=""
+                                    IsToggled="{Binding IsStarting, Mode=TwoWay}"/>
+                            </Grid>
                         </Grid>
                     </material:MaterialCard>
                     <material:MaterialCard
-                        Type="Filled">
+                        Type="Filled"
+                        BindingContext="{Binding SetupPlayer2}"
+                        x:DataType="models:PlayerSetupDto">
                         <Grid
-                            ColumnDefinitions="*,100">
-                            <material:MaterialLabel
-                                Grid.Column="0"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Start"
-                                Type="TitleMedium"
-                                Text="{Binding SetupPlayer2.Name}"/>
-                            <material:MaterialButton
-                                Grid.Column="1"
-                                VerticalOptions="Center"
-                                HorizontalOptions="End"
-                                Text="Edit"
-                                Command="{Binding OpenEditPopupCommand}"
-                                CommandParameter="{Binding SetupPlayer2}"/>
+                            RowDefinitions="*,*"
+                            RowSpacing="8"
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="16">
+                            <material:MaterialTextField
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2"
+                                Type="Outlined"
+                                Label="Name"
+                                AlwaysShowLabel="True"
+                                Placeholder="Player Name"
+                                Text="{Binding Name}"
+                                MaxLength="25"/>
+                            <material:MaterialTextField
+                                Grid.Row="1" Grid.Column="0"
+                                Type="Outlined"
+                                Keyboard="Numeric"
+                                Label="Head Start"
+                                AlwaysShowLabel="True"
+                                Placeholder="0"
+                                MaxLength="3"
+                                Text="{Binding HeadStart}"
+                                HasError="{Binding HeadStartInputError}"
+                                ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:GameSetupViewModel}}, Path=ValidateHeadStartCommand}"
+                                ReturnCommandParameter="{Binding .}"/>
+                            <Grid
+                                Grid.Row="1" Grid.Column="1"
+                                ColumnDefinitions="*,*"
+                                ColumnSpacing="2"
+                                Padding="0,4,2,0">
+                                <material:MaterialLabel
+                                    Grid.Column="0"
+                                    Type="BodyMedium"
+                                    Text="Starts the match"
+                                    VerticalOptions="Center"/>
+                                <material:MaterialSwitch
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Text=""
+                                    IsToggled="{Binding IsStarting, Mode=TwoWay}"/>
+                            </Grid>
                         </Grid>
                     </material:MaterialCard>
                 </VerticalStackLayout>

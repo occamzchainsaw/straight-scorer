@@ -7,53 +7,69 @@
              x:Class="StraightScorer.Maui.Views.CurrentBreakView"
              x:DataType="vm:GameViewModel">
     <Grid
-        RowDefinitions="*,Auto"
-        RowSpacing="24"
-        ColumnDefinitions="*,*,*,*"
-        ColumnSpacing="16"
-        Padding="16,0,16,16">
-        <material:MaterialLabel
-            Grid.Row="0" Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Type="HeadlineLarge"
-            VerticalOptions="Center"
-            HorizontalOptions="Start"
-            Text="{Binding PlayerAtTable.Name}"/>
-        <material:MaterialLabel
-            Grid.Row="0" Grid.Column="2"
-            Grid.ColumnSpan="2"
-            Type="HeadlineLarge"
-            VerticalOptions="Center"
-            HorizontalOptions="End"
-            Text="{Binding PlayerAtTable.CurrentBreak}"/>
-        <material:MaterialButton
-            Grid.Row="1" Grid.Column="0"
-            Type="Elevated"
-            Text="+1"
-            HeightRequest="68"
-            CornerRadius="64"
-            Command="{Binding AddPointsCommand}"
-            CommandParameter="{x:Int32 1}"/>
-        <material:MaterialButton
-            Grid.Row="1" Grid.Column="1"
-            Type="Elevated"
-            Text="+N"
-            HeightRequest="68"
-            CornerRadius="64"
-            Command="{Binding ShowAddPointsPopupCommand}"/>
-        <material:MaterialButton
-            Grid.Row="1" Grid.Column="2"
-            Type="Elevated"
-            Text="M"
-            HeightRequest="68"
-            CornerRadius="64"
-            Command="{Binding MissCommand}"/>
-        <material:MaterialButton
-            Grid.Row="1" Grid.Column="3"
-            Type="Elevated"
-            Text="F"
-            HeightRequest="68"
-            CornerRadius="64"
-            Command="{Binding FoulCommand}"/>
+        RowDefinitions="*,Auto,Auto"
+        RowSpacing="32">
+        <Grid
+            Grid.Row="0"
+            ColumnDefinitions="*,*"
+            Padding="16,0,16,0">
+            <material:MaterialLabel
+                Grid.Column="0"
+                Type="HeadlineLarge"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                Text="{Binding PlayerAtTable.Name}"/>
+            <material:MaterialLabel
+                Grid.Row="0" Grid.Column="1"
+                Type="HeadlineLarge"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                Text="{Binding PlayerAtTable.CurrentBreak}"/>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*,*,*,*,*">
+            <material:MaterialButton
+                Grid.Column="0"
+                Type="Elevated"
+                Text="+1"
+                WidthRequest="48"
+                HeightRequest="48"
+                CornerRadius="64"
+                Command="{Binding AddPointsCommand}"
+                CommandParameter="{x:Int32 1}"/>
+            <material:MaterialButton
+                Grid.Column="1"
+                Type="Elevated"
+                Text="+N"
+                WidthRequest="48"
+                HeightRequest="48"
+                CornerRadius="64"
+                Command="{Binding ShowAddPointsPopupCommand}"/>
+            <material:MaterialButton
+                Grid.Column="2"
+                Type="Elevated"
+                Text="M"
+                WidthRequest="48"
+                HeightRequest="48"
+                CornerRadius="64"
+                Command="{Binding MissCommand}"/>
+            <material:MaterialButton
+                Grid.Column="3"
+                Type="Elevated"
+                Text="F"
+                WidthRequest="48"
+                HeightRequest="48"
+                CornerRadius="64"
+                Command="{Binding FoulCommand}"/>
+            <material:MaterialButton
+                Grid.Column="4"
+                Type="Elevated"
+                Text="U"
+                WidthRequest="48"
+                HeightRequest="48"
+                CornerRadius="64"
+                Command="{Binding UndoLastActionCommand}"/>
+        </Grid>
     </Grid>
 </ContentView>

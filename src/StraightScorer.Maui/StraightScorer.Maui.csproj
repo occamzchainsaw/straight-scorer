@@ -79,9 +79,6 @@
 	  <MauiXaml Update="Views\CurrentBreakView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\EditPlayerPopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\OverallScoreView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
