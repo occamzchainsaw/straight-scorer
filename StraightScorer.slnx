@@ -1,5 +1,8 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/StraightScorer.Maui/StraightScorer.Maui.csproj" />
+    <Project Path="src/StraightScorer.Maui/StraightScorer.Maui.csproj">
+      <Deploy Solution="Debug|*" />
+    </Project>
+    <Project Path="src/StraightScorer.Core/StraightScorer.Core.csproj" Id="5d0f3f8d-901b-402e-a5a8-454f55d6a49a" />
   </Folder>
 </Solution>

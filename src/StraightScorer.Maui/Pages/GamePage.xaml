@@ -3,56 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:StraightScorer.Maui.Pages"
              xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
-             xmlns:views="clr-namespace:StraightScorer.Maui.Views"
-             xmlns:models="clr-namespace:StraightScorer.Maui.Models"
-             xmlns:material="clr-namespace:HorusStudio.Maui.MaterialDesignControls;assembly=HorusStudio.Maui.MaterialDesignControls"
+             xmlns:models="clr-namespace:StraightScorer.Core.Models;assembly=StraightScorer.Core"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:cntrl="clr-namespace:StraightScorer.Maui.Views.Controls"
              x:Class="StraightScorer.Maui.Pages.GamePage"
-             x:DataType="vm:GameViewModel"
-             BackgroundColor="{AppThemeBinding Light={x:Static material:MaterialLightTheme.Surface}, Dark={x:Static material:MaterialDarkTheme.Surface}}">
-    <views:PageWithTopBar>
-        <Grid
-            RowDefinitions="Auto,Auto,Auto,*"
-            RowSpacing="32"
-            Padding="16">
-            <material:MaterialCard
-                Grid.Row="0"
-                Type="Filled"
-                Padding="16">
-                <Grid RowDefinitions="36,*">
-                    <material:MaterialLabel
-                        Grid.Row="0"
-                        HorizontalOptions="Center"
-                        Type="BodyLarge"
-                        Text="{Binding TargetScore, StringFormat='Race to {0}'}"/>
-                    <views:OverallScoreView
-                        Grid.Row="1"
-                        BindingContext="{Binding .}"/>
-                </Grid>
-            </material:MaterialCard>
-            <material:MaterialCard
-                Grid.Row="1"
-                Type="Filled"
-                Padding="16">
-                <Grid RowDefinitions="36,*">
-                    <material:MaterialLabel
-                        Grid.Row="0"
-                        HorizontalOptions="Center"
-                        Type="BodyLarge"
-                        Text="Current Break"/>
-                    <views:CurrentBreakView
-                        Grid.Row="1"
-                        BindingContext="{Binding .}"/>
-                </Grid>
-            </material:MaterialCard>
-            <material:MaterialCard
-                Grid.Row="2"
-                Type="Filled"
-                Padding="16">
-                <material:MaterialLabel
-                    HorizontalOptions="Center"
-                    Type="HeadlineMedium"
-                    Text="{Binding BallsOnTable, StringFormat='Balls left: {0}'}"/>
-            </material:MaterialCard>
-        </Grid>
-    </views:PageWithTopBar>
+             x:DataType="vm:GameViewModel">
+    <Grid>
+        <Label Text="Game Page"
+               FontSize="Header"/>
+    </Grid>
 </ContentPage>

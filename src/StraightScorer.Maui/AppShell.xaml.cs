@@ -1,13 +1,17 @@
-﻿using StraightScorer.Maui.Pages;
+﻿using StraightScorer.Core.Services;
+using StraightScorer.Maui.Pages;
 
 namespace StraightScorer.Maui;
 
 public partial class AppShell : Shell
 {
-	public AppShell()
+	public GameState State { get; }
+
+	public AppShell(GameState state)
 	{
 		InitializeComponent();
-		Routing.RegisterRoute("setup", typeof(SetupPage));
+		State = state;
+		BindingContext = this;
 		Routing.RegisterRoute("game", typeof(GamePage));
 	}
 }

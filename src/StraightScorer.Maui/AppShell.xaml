@@ -3,16 +3,33 @@
     x:Class="StraightScorer.Maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:local="clr-namespace:StraightScorer.Maui"
     xmlns:pages="clr-namespace:StraightScorer.Maui.Pages"
-    Title="StraightScorer.Maui">
+    Title="StraightScorer">
+
+    <Shell.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
+    </Shell.Resources>
 
     <ShellContent
+        Title="Setup"
         ContentTemplate="{DataTemplate pages:SetupPage}"
         Route="setup" />
 
     <ShellContent
-        ContentTemplate="{DataTemplate pages:GamePage}"
-        Route="game" />
+        Title="Settings"
+        ContentTemplate="{DataTemplate pages:SettingsPage}"
+        Route="settings" />
+
+    <ShellContent
+        Title="Info"
+        ContentTemplate="{DataTemplate pages:InfoPage}"
+        Route="info" />
+
+    <!--<ShellContent
+    Title="Home"
+    ContentTemplate="{DataTemplate local:MainPage}"
+    Route="MainPage" />-->
 
 </Shell>

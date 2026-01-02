@@ -4,7 +4,7 @@ namespace StraightScorer.Maui.Pages;
 
 public partial class SetupPage : ContentPage
 {
-	public SetupPage(GameSetupViewModel vm)
+	public SetupPage(SetupViewModel vm)
 	{
 		BindingContext = vm;
 		InitializeComponent();

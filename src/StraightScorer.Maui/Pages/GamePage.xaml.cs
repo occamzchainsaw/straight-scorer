@@ -6,7 +6,7 @@ public partial class GamePage : ContentPage
 {
 	public GamePage(GameViewModel vm)
 	{
-		BindingContext = vm;
+        BindingContext = vm;
 		InitializeComponent();
 	}
 }

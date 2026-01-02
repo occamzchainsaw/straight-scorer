@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="StraightScorer.Maui.Views.Controls.LabeledTextEntry"
+             x:Name="this">
+    <VerticalStackLayout Spacing="4"
+                         Padding="0,0">
+        <Label Text="{Binding LabelText, Source={x:Reference this}}"
+               Margin="4,0,4,0"/>
+        <Border x:Name="OuterBorder"
+                Padding="16,4"
+                Style="{StaticResource EntryBorderStyle}">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnBorderTapped"/>
+            </Border.GestureRecognizers>
+            <Border.Triggers>
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding IsValid, Source={x:Reference this}}"
+                             Value="False">
+                    <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Red800}, Dark={StaticResource Red600}}"/>
+                </DataTrigger>
+            </Border.Triggers>
+            <Entry x:Name="InternalEntry"
+                   Text="{Binding Text, Source={x:Reference this}}"
+                   VerticalTextAlignment="Center">
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry"
+                                 Binding="{Binding IsValid, Source={x:Reference this}}"
+                                 Value="False">
+                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Red800}, Dark={StaticResource Red600}}"/>
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

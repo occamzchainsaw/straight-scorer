@@ -1,4 +1,4 @@
-namespace StraightScorer.Maui.Services.Interfaces;
+﻿namespace StraightScorer.Core.Services.Interfaces;
 
 public interface IUndoRedoCommand
 {

@@ -1,50 +1,63 @@
-﻿using HorusStudio.Maui.MaterialDesignControls;
+﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Mopups.Hosting;
 using Mopups.Interfaces;
 using Mopups.Services;
+using StraightScorer.Core.Services;
+using StraightScorer.Core.Services.Interfaces;
 using StraightScorer.Maui.Pages;
 using StraightScorer.Maui.Services;
-using StraightScorer.Maui.Services.Interfaces;
 using StraightScorer.Maui.ViewModels;
 
 namespace StraightScorer.Maui;
 
 public static class MauiProgram
 {
-	private const string FontRegular = "FontRegular";
-	private const string FontSemibold = "FontSemibold";
-	private const string FontBold = "FontBold";
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.UseMaterialDesignControls()
-			//.UseMaterialDesignControls(options =>
-			//{
-			//	options.ConfigureFonts(fonts =>
-			//	{
-			//		fonts.AddFont("GoogleSans-Regular.ttf", FontRegular);
-			//		fonts.AddFont("GoogleSans-SemiBold.ttf", FontSemibold);
-			//		fonts.AddFont("GoogleSans-Bold.ttf", FontBold);
-			//	}, new(FontRegular, FontSemibold, FontRegular));
-			//})
-			.ConfigureMopups();
+			.UseMauiCommunityToolkit()
+			.ConfigureMopups()
+            .ConfigureFonts(fonts =>
+            {
+				fonts.AddFont("Montserrat-Regular.ttf", "FontRegular");
+				fonts.AddFont("Montserrat-Semibold.ttf", "FontSemibold");
+				fonts.AddFont("Montserrat-Bold.ttf", "FontBold");
+			});
 
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
-		builder.Services.AddSingleton<GameSession>();
+		builder.Services.AddSingleton<INavigationService, MauiNavigationService>();
+        builder.Services.AddSingleton<GameState>();
+		builder.Services.AddSingleton<AppShell>();
+		builder.Services.AddSingleton<App>();
 		builder.Services.AddSingleton<IUndoRedoService, UndoRedoService>();
 		builder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
 
-		builder.Services.AddTransient<GameSetupViewModel>();
-		builder.Services.AddTransient<GameViewModel>();
-
 		builder.Services.AddTransient<GamePage>();
 		builder.Services.AddTransient<SetupPage>();
+
+		builder.Services.AddTransient<SetupViewModel>();
+		builder.Services.AddTransient<GameViewModel>();
+
+		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("CleanEntry", (handler, view) =>
+		{
+#if ANDROID
+			handler.PlatformView.Background = null;
+			handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+			handler.PlatformView.SetPadding(0, 0, 0, 0);
+#elif WINDOWS
+			handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+			handler.PlatformView.Padding = new Microsoft.UI.Xaml.Thickness(8,12,8,12);
+			handler.PlatformView.MinWidth = 45;
+			handler.PlatformView.MinHeight = 0;
+			handler.PlatformView.Resources["TextControlBorderThemeThicknessFocused"] = new Microsoft.UI.Xaml.Thickness(0);
+#endif
+        });
 
         return builder.Build();
 	}

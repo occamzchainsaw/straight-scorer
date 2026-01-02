@@ -1,18 +1,20 @@
-using StraightScorer.Maui.Services.Interfaces;
+﻿using StraightScorer.Core.Services.Interfaces;
 
-namespace StraightScorer.Maui.Services;
+namespace StraightScorer.Core.Services;
 
 public class UndoRedoService : IUndoRedoService
 {
     private readonly List<IUndoRedoCommand> _history = [];
-    private const int MaxHistory = 100;
+    private const int _maxHistory = 100;
+
+    public bool CanUndo => _history.Count > 0;
 
     public void ExecuteAndAdd(IUndoRedoCommand command)
     {
         command.Execute();
         _history.Add(command);
 
-        if (_history.Count > MaxHistory)
+        if (_history.Count > _maxHistory)
             _history.RemoveAt(0);
     }
 
@@ -29,6 +31,4 @@ public class UndoRedoService : IUndoRedoService
             _history.RemoveAt(_history.Count - 1);
         }
     }
-
-    public bool CanUndo => _history.Count > 0;
 }

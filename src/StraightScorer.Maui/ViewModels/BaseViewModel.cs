@@ -2,17 +2,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StraightScorer.Maui.ViewModels;
 
-public partial class BaseViewModel : ObservableObject
+public partial class BaseViewModel : ObservableValidator
 {
     [ObservableProperty]
-    private string _title = "";
-
-    [ObservableProperty]
-    private string _subtitle = "";
-
-    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsNotBusy))]
-    private bool _isBusy;
+    public partial bool IsBusy { get; set; }
 
     public bool IsNotBusy => !IsBusy;
 }
