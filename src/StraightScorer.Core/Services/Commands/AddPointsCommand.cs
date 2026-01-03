@@ -3,8 +3,8 @@ using StraightScorer.Core.Services.Interfaces;
 
 namespace StraightScorer.Core.Services.Commands;
 
-internal class AddPointsCommand(
-    GameState _gameService,
+public class AddPointsCommand(
+    GameState _gameState,
     int _pointsToAdd) : IUndoRedoCommand
 {
     private int _previousScore;
@@ -14,21 +14,21 @@ internal class AddPointsCommand(
 
     public void Execute()
     {
-        Player player = _gameService.GetPlayerAtTable();
+        Player player = _gameState.GetPlayerAtTable();
         // save previous state
         _previousScore = player.Score;
         _previousBreak = player.CurrentBreak;
-        _previousBallsOnTable = _gameService.BallsOnTable;
+        _previousBallsOnTable = _gameState.BallsOnTable;
 
         // update score and break
-        if (player.Score + _pointsToAdd >= _gameService.TargetScore)
+        if (player.Score + _pointsToAdd >= _gameState.TargetScore)
         {
-            _pointsToAdd = _gameService.TargetScore - player.Score;
+            _pointsToAdd = _gameState.TargetScore - player.Score;
             SetBallsLeft();
             player.Score += _pointsToAdd;
             player.CurrentBreak += _pointsToAdd;
             _gameFinished = true;
-            _gameService.EndGame();
+            _gameState.EndGame();
             return;
         }
         player.Score += _pointsToAdd;
@@ -38,13 +38,13 @@ internal class AddPointsCommand(
 
     public void Undo()
     {
-        Player player = _gameService.GetPlayerAtTable();
+        Player player = _gameState.GetPlayerAtTable();
         player.Score = _previousScore;
         player.CurrentBreak = _previousBreak;
-        _gameService.BallsOnTable = _previousBallsOnTable;
+        _gameState.BallsOnTable = _previousBallsOnTable;
         if (_gameFinished)
         {
-            _gameService.UndoEndGame();
+            _gameState.UndoEndGame();
         }
     }
 
@@ -52,9 +52,9 @@ internal class AddPointsCommand(
     {
         for (int i = 0; i < _pointsToAdd; i++)
         {
-            _gameService.BallsOnTable--;
-            if (_gameService.BallsOnTable == 1)
-                _gameService.BallsOnTable = 15;
+            _gameState.BallsOnTable--;
+            if (_gameState.BallsOnTable == 1)
+                _gameState.BallsOnTable = 15;
         }
     }
 }

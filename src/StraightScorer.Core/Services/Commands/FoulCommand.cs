@@ -3,7 +3,7 @@ using StraightScorer.Core.Services.Interfaces;
 
 namespace StraightScorer.Core.Services.Commands;
 
-internal class FoulCommand(GameState _gameService) : IUndoRedoCommand
+public class FoulCommand(GameState _gameState) : IUndoRedoCommand
 {
     private int _previousPlayerAtTableId;
     private int _nextPlayerAtTableId;
@@ -13,9 +13,9 @@ internal class FoulCommand(GameState _gameService) : IUndoRedoCommand
 
     public void Execute()
     {
-        Player player = _gameService.GetPlayerAtTable();
-        _previousPlayerAtTableId = _gameService.PlayerAtTableId;
-        _nextPlayerAtTableId = _gameService.GetNextPlayerId();
+        Player player = _gameState.GetPlayerAtTable();
+        _previousPlayerAtTableId = _gameState.PlayerAtTableId;
+        _nextPlayerAtTableId = _gameState.GetNextPlayerId();
         _previousScore = player.Score;
         _previousBreak = player.CurrentBreak;
         _previousConsecutiveFouls = player.ConsecutiveFouls;
@@ -35,19 +35,19 @@ internal class FoulCommand(GameState _gameService) : IUndoRedoCommand
         }
         player.IsAtTable = false;
 
-        _gameService.PlayerAtTableId = _nextPlayerAtTableId;
+        _gameState.PlayerAtTableId = _nextPlayerAtTableId;
         // change reference to next player
-        player = _gameService.GetPlayerAtTable();
+        player = _gameState.GetPlayerAtTable();
         player.IsAtTable = true;
     }
 
     public void Undo()
     {
-        Player player = _gameService.GetPlayerAtTable();
+        Player player = _gameState.GetPlayerAtTable();
         player.IsAtTable = false;
 
-        _gameService.PlayerAtTableId = _previousPlayerAtTableId;
-        player = _gameService.GetPlayerAtTable();
+        _gameState.PlayerAtTableId = _previousPlayerAtTableId;
+        player = _gameState.GetPlayerAtTable();
         player.Score = _previousScore;
         player.CurrentBreak = _previousBreak;
         player.ConsecutiveFouls = _previousConsecutiveFouls;

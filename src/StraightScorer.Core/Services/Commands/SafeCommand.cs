@@ -1,9 +1,9 @@
-﻿using StraightScorer.Core.Models;
+using StraightScorer.Core.Models;
 using StraightScorer.Core.Services.Interfaces;
 
 namespace StraightScorer.Core.Services.Commands;
 
-public class MissCommand(GameState _gameState): IUndoRedoCommand
+public class SafeCommand(GameState _gameState) : IUndoRedoCommand
 {
     private int _previousPlayerAtTableId;
     private int _nextPlayerAtTableId;

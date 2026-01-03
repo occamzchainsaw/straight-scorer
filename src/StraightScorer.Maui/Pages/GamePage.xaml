@@ -6,10 +6,28 @@
              xmlns:models="clr-namespace:StraightScorer.Core.Models;assembly=StraightScorer.Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:cntrl="clr-namespace:StraightScorer.Maui.Views.Controls"
+             xmlns:conv="clr-namespace:StraightScorer.Maui.Converters"
+             xmlns:views="clr-namespace:StraightScorer.Maui.Views"
+             xmlns:services="clr-namespace:StraightScorer.Core.Services;assembly=StraightScorer.Core"
              x:Class="StraightScorer.Maui.Pages.GamePage"
              x:DataType="vm:GameViewModel">
-    <Grid>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="HeadToHeadTemplate" x:DataType="{x:Type services:GameState}">
+
+        </DataTemplate>
+        <DataTemplate x:Key="ListTemplate" x:DataType="{x:Type services:GameState}">
+
+        </DataTemplate>
+        <views:ScoreViewSelector x:Key="ScoreSelector"
+                                 HeadToHeadTemplate="{StaticResource HeadToHeadTemplate}"
+                                 ListTemplate="{StaticResource ListTemplate}"/>
+        <conv:IsValidationCollectionEmptyConverter x:Key="ValidationConverter"/>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout
+        Spacing="16"
+        VerticalOptions="Fill">
         <Label Text="Game Page"
                FontSize="Header"/>
-    </Grid>
+    </VerticalStackLayout>
 </ContentPage>

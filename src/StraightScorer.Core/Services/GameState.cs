@@ -35,7 +35,7 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
         GameInProgress = true;
     }
 
-    public void AddPoints(int points)
+    public void AddPoints(int points = 1)
     {
         IUndoRedoCommand command = new AddPointsCommand(this, points);
         _undoRedoService.ExecuteAndAdd(command);
@@ -44,6 +44,12 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
     public void Miss()
     {
         IUndoRedoCommand command = new MissCommand(this);
+        _undoRedoService.ExecuteAndAdd(command);
+    }
+
+    public void Safe()
+    {
+        IUndoRedoCommand command = new SafeCommand(this);
         _undoRedoService.ExecuteAndAdd(command);
     }
 
