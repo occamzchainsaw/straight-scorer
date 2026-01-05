@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopups:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
+                  xmlns:models="clr-namespace:StraightScorer.Core.Models;assembly=StraightScorer.Core"
+                  xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
+                  x:Class="StraightScorer.Maui.Views.Popup.EndGamePopup"
+                  x:DataType="vm:GameViewModel"
+                  CloseWhenBackgroundIsClicked="True"
+                  BackgroundColor="#88000000">
+    <Border
+        Style="{StaticResource PopupBorderStyle}">
+        <VerticalStackLayout Spacing="32"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill">
+            <Label
+                Text="{Binding WinningPlayer.Name, StringFormat='{}{0} won the match!'}"
+                FontSize="Large"
+                VerticalOptions="Center"
+                HorizontalOptions="Start" />
+            <Button
+                Text="Close"
+                FontSize="Small"
+                HorizontalOptions="End"
+                Command="{Binding CloseEndGamePopupCommand}"/>
+        </VerticalStackLayout>
+    </Border>
+</mopups:PopupPage>

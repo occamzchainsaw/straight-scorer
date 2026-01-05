@@ -5,7 +5,7 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Primary">#4527A0</Color>
     <Color x:Key="PrimaryDark">#7E57C2</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
@@ -16,11 +16,11 @@
     <Color x:Key="AccentDark">#7E57C2</Color>
 
     <Color x:Key="Red">#C62828</Color>
-    <Color x:Key="RedSemi">#AAC62828</Color>
+    <Color x:Key="RedSemi">#AAD32F2F</Color>
     <Color x:Key="RedDark">#F44336</Color>
     <Color x:Key="RedSemiDark">#88D32F2F</Color>
     <Color x:Key="Green">#2E7D32</Color>
-    <Color x:Key="GreenSemi">#AA2E7D32</Color>
+    <Color x:Key="GreenSemi">#AA43A047</Color>
     <Color x:Key="GreenDark">#66BB6A</Color>
     <Color x:Key="GreenSemiDark">#554CAF50</Color>
     <Color x:Key="Yellow">#FDD835</Color>
@@ -28,11 +28,11 @@
     <Color x:Key="YellowDark">#FFEE58</Color>
     <Color x:Key="YellowSemiDark">#AAFFEE58</Color>
     <Color x:Key="Blue">#1565C0</Color>
-    <Color x:Key="BlueSemi">#AA1565C0</Color>
+    <Color x:Key="BlueSemi">#AA1E88E5</Color>
     <Color x:Key="BlueDark">#42A5F5</Color>
     <Color x:Key="BlueSemiDark">#881E88E5</Color>
-    <Color x:Key="Gray">#757575</Color>
-    <Color x:Key="GraySemi">#AA757575</Color>
+    <Color x:Key="Gray">#616161</Color>
+    <Color x:Key="GraySemi">#AA9E9E9E</Color>
     <Color x:Key="GrayDark">#EEEEEE</Color>
     <Color x:Key="GraySemiDark">#88E0E0E0</Color>
 

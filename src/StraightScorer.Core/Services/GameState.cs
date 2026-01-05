@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using StraightScorer.Core.Models;
 using StraightScorer.Core.Services.Commands;
 using StraightScorer.Core.Services.Interfaces;
@@ -19,8 +20,6 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
 
     public void SetupGame(ICollection<PlayerSetupDto> players, int targetScore)
     {
-        TargetScore = targetScore;
-        
         Players.Clear();
         int i = 0;
         foreach (PlayerSetupDto player in players)
@@ -33,9 +32,17 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
                 IsAtTable = player.IsStarting,
             });
         }
+        TargetScore = targetScore;
         PlayerAtTableId = Players.First(p => p.IsAtTable).Id;
+        BallsOnTable = 15;
+        CurrentRack = 1;
         BreakHistory.Clear();
         GameInProgress = true;
+    }
+
+    partial void OnGameInProgressChanged(bool value)
+    {
+        WeakReferenceMessenger.Default.Send(new GameInProgressChangedMessage());
     }
 
     public void AddPoints(int points = 1)
@@ -77,14 +84,14 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
     //    Players.Add(new Player() { Id = newId });
     //}
 
-    public Player GetPlayer(int id)
+    public Player? GetPlayer(int id)
     {
-        return Players.First(p => p.Id == id);
+        return Players.FirstOrDefault(p => p.Id == id);
     }
 
     public Player GetPlayerAtTable()
     {
-        return GetPlayer(PlayerAtTableId);
+        return GetPlayer(PlayerAtTableId) ?? Players[0];
     }
 
     public int GetNextPlayerId()
@@ -95,9 +102,24 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
         return nextId;
     }
 
+    public void AddBreakToHistory(string playerName, int pointsScored, BreakEndAction endAction)
+    {
+        foreach (Break b in BreakHistory)
+            b.IsLast = false;
+
+        BreakHistory.Add(new Break()
+        {
+            PlayerName = playerName,
+            PointsScored = pointsScored,
+            EndAction = endAction,
+            IsLast = true,
+        });
+    }
+
     public void RemoveLastBreakFromHistory()
     {
         BreakHistory.RemoveAt(BreakHistory.Count - 1);
+        BreakHistory.Last().IsLast = true;
     }
 
     public void EndGame()
@@ -110,5 +132,8 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
     public void UndoEndGame()
     {
         WinningPlayerId = -1;
+        GameInProgress = true;
     }
 }
+
+public record GameInProgressChangedMessage();

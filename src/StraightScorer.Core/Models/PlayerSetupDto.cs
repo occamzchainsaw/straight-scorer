@@ -69,11 +69,6 @@ public partial class PlayerSetupDto(Func<int> getTargetScore) : ObservableValida
     }
 }
 
-public class IsStartingPlayerChangedMessage : ValueChangedMessage<PlayerSetupDto>
-{
-    public IsStartingPlayerChangedMessage(PlayerSetupDto value) : base(value)
-    {
-    }
-}
+public class IsStartingPlayerChangedMessage(PlayerSetupDto value) : ValueChangedMessage<PlayerSetupDto>(value);
 
 public record ValidationChangedMessage();

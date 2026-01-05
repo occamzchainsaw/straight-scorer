@@ -5,6 +5,23 @@
              xmlns:services="clr-namespace:StraightScorer.Core.Services;assembly=StraightScorer.Core"
              x:Class="StraightScorer.Maui.Views.Controls.ScoreHeadToHeadView"
              x:DataType="services:GameState">
+    <ContentView.Resources>
+        <ControlTemplate x:Key="OneFoulTemplate">
+            <VerticalStackLayout
+                VerticalOptions="End">
+                <Ellipse Style="{StaticResource FoulIndicatorStyle}"/>
+            </VerticalStackLayout>
+        </ControlTemplate>
+        <ControlTemplate x:Key="TwoFoulsTemplate">
+            <VerticalStackLayout
+                VerticalOptions="End"
+                Spacing="4">
+                <Ellipse Style="{StaticResource FoulIndicatorStyle}"/>
+                <Ellipse Style="{StaticResource FoulIndicatorStyle}"/>
+            </VerticalStackLayout>
+        </ControlTemplate>
+    </ContentView.Resources>
+
     <Border
         Style="{StaticResource AccentBorderStyle}"
         Padding="0">
@@ -35,24 +52,66 @@
                     HorizontalOptions="Start"
                     VerticalOptions="Center"
                     Text="{Binding Players[0].Name}"/>
-                <Label
+                <Grid
                     Grid.Row="1" Grid.Column="1"
-                    Margin="4,0"
-                    FontSize="48"
-                    HorizontalOptions="Start"
-                    VerticalOptions="End"
-                    Text="{Binding Players[0].Score}"/>
+                    ColumnDefinitions="*,24">
+                    <Label
+                        Grid.Column="0"
+                        Margin="4,0"
+                        FontSize="48"
+                        HorizontalOptions="Start"
+                        VerticalOptions="End"
+                        Text="{Binding Players[0].Score}"/>
+                    <ContentView
+                        Grid.Column="1"
+                        Padding="0,8">
+                        <ContentView.Triggers>
+                            <DataTrigger TargetType="ContentView" Binding="{Binding Players[0].ConsecutiveFouls}" Value="0">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="ContentView" Binding="{Binding Players[0].ConsecutiveFouls}" Value="1">
+                                <Setter Property="ControlTemplate" Value="{StaticResource OneFoulTemplate}"/>
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="ContentView" Binding="{Binding Players[0].ConsecutiveFouls}" Value="2">
+                                <Setter Property="ControlTemplate" Value="{StaticResource TwoFoulsTemplate}"/>
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                        </ContentView.Triggers>
+                    </ContentView>
+                </Grid>
                 <BoxView
                     Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
                     Margin="0,16,0,12"
                     Style="{StaticResource VerticalSeparatorStyle}"/>
-                <Label
+                <Grid
                     Grid.Row="1" Grid.Column="3"
-                    Margin="4,0"
-                    FontSize="48"
-                    HorizontalOptions="End"
-                    VerticalOptions="End"
-                    Text="{Binding Players[1].Score}"/>
+                    ColumnDefinitions="24,*">
+                    <ContentView
+                        Grid.Column="0"
+                        Padding="0,8">
+                        <ContentView.Triggers>
+                            <DataTrigger TargetType="ContentView" Binding="{Binding Players[1].ConsecutiveFouls}" Value="0">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="ContentView" Binding="{Binding Players[1].ConsecutiveFouls}" Value="1">
+                                <Setter Property="ControlTemplate" Value="{StaticResource OneFoulTemplate}"/>
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="ContentView" Binding="{Binding Players[1].ConsecutiveFouls}" Value="2">
+                                <Setter Property="ControlTemplate" Value="{StaticResource TwoFoulsTemplate}"/>
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                        </ContentView.Triggers>
+                    </ContentView>
+                    <Label
+                        Grid.Column="1"
+                        Margin="4,0"
+                        FontSize="48"
+                        HorizontalOptions="End"
+                        VerticalOptions="End"
+                        Text="{Binding Players[1].Score}"/>
+                </Grid>
                 <Label
                     Grid.Row="0" Grid.Column="3"
                     Margin="4,0"

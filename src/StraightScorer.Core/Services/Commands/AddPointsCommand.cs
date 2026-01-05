@@ -9,6 +9,7 @@ public class AddPointsCommand(
 {
     private int _previousScore;
     private int _previousBreak;
+    private int _previousFouls;
     private int _previousBallsOnTable;
     private bool _gameFinished = false;
 
@@ -18,6 +19,7 @@ public class AddPointsCommand(
         // save previous state
         _previousScore = player.Score;
         _previousBreak = player.CurrentBreak;
+        _previousFouls = player.ConsecutiveFouls;
         _previousBallsOnTable = _gameState.BallsOnTable;
 
         // update score and break
@@ -29,16 +31,12 @@ public class AddPointsCommand(
             player.CurrentBreak += _pointsToAdd;
             _gameFinished = true;
             _gameState.EndGame();
-            _gameState.BreakHistory.Add(new Break
-            {
-                PlayerName = player.Name,
-                PointsScored = player.CurrentBreak,
-                EndAction = BreakEndAction.Win
-            });
+            _gameState.AddBreakToHistory(player.Name, player.CurrentBreak, BreakEndAction.Win);
             return;
         }
         player.Score += _pointsToAdd;
         player.CurrentBreak += _pointsToAdd;
+        player.ConsecutiveFouls = 0;
         SetBallsLeft();
     }
 
@@ -47,6 +45,7 @@ public class AddPointsCommand(
         Player player = _gameState.GetPlayerAtTable();
         player.Score = _previousScore;
         player.CurrentBreak = _previousBreak;
+        player.ConsecutiveFouls = _previousFouls;
         _gameState.BallsOnTable = _previousBallsOnTable;
         if (_gameFinished)
         {

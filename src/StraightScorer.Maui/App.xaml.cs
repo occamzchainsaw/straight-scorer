@@ -10,7 +10,7 @@ public partial class App : Application
 		InitializeComponent();
 		_shell = shell;
 		// toremove
-		Application.Current.UserAppTheme = AppTheme.Dark;
+		Application.Current.UserAppTheme = AppTheme.Light;
 	}
 
     protected override Window CreateWindow(IActivationState? activationState)

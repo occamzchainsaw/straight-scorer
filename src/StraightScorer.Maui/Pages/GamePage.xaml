@@ -18,148 +18,173 @@
         <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
     </ContentPage.Resources>
 
-    <VerticalStackLayout
-        Spacing="24"
-        Padding="8"
-        VerticalOptions="Fill">
-        <cntrl:ScoreHeadToHeadView
-            BindingContext="{Binding CurrentGameState}"
-            IsVisible="{Binding IsHeadToHead}"/>
-        <CollectionView
-            IsVisible="{Binding IsHeadToHead, Converter={StaticResource InvertedBoolConverter}}"
-            ItemsSource="{Binding CurrentGameState.Players}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Player">
-                    <Border Style="{StaticResource ScoreBorderStyle}">
-                        <cntrl:ScoreGeneralView/>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <cntrl:BreakView
-            BindingContext="{Binding PlayerAtTable}"/>
-
+    <ScrollView>
         <Grid
-            ColumnDefinitions="*,*,*,*,*"
-            ColumnSpacing="8"
-            Margin="0,8">
-            <VerticalStackLayout Grid.Column="0" Spacing="10">
-                <Button
-                    ImageSource="undo_icon.png"
-                    Command="{Binding UndoCommand}"
-                    Style="{StaticResource RoundIconButton}"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource GraySemi}, Dark={StaticResource GraySemiDark}}">
-                    <Button.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray}, Dark={StaticResource GrayDark}}"/>
-                    </Button.Behaviors>
-                </Button>
-                <Label
-                    FontSize="12"
-                    Text="Undo"
-                    HorizontalOptions="Center"/>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1" Spacing="10">
-                <Button
-                    ImageSource="plus_icon.png"
-                    Command="{Binding AddOnePointCommand}"
-                    Style="{StaticResource RoundIconButton}"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource GreenSemi}, Dark={StaticResource GreenSemiDark}}">
-                    <Button.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Green}, Dark={StaticResource GreenDark}}"/>
-                    </Button.Behaviors>
-                </Button>
-                <Label
-                    FontSize="12"
-                    Text="Add Point"
-                    HorizontalOptions="Center"/>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="2" Spacing="10">
-                <Button
-                    ImageSource="safe_icon.png"
-                    Command="{Binding SafeCommand}"
-                    Style="{StaticResource RoundIconButton}"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource BlueSemi}, Dark={StaticResource BlueSemiDark}}">
-                    <Button.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Blue}, Dark={StaticResource BlueDark}}"/>
-                    </Button.Behaviors>
-                </Button>
-                <Label
-                    FontSize="12"
-                    Text="Safe"
-                    HorizontalOptions="Center"/>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="3" Spacing="10">
-                <Button
-                    ImageSource="miss_icon.png"
-                    Command="{Binding MissCommand}"
-                    Style="{StaticResource RoundIconButton}"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource GraySemi}, Dark={StaticResource GraySemiDark}}">
-                    <Button.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray}, Dark={StaticResource GrayDark}}"/>
-                    </Button.Behaviors>
-                </Button>
-                <Label
-                    FontSize="12"
-                    Text="Miss"
-                    HorizontalOptions="Center"/>
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="4" Spacing="10">
-                <Button
-                    ImageSource="foul_icon.png"
-                    Command="{Binding FoulCommand}"
-                    Style="{StaticResource RoundIconButton}"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource RedSemi}, Dark={StaticResource RedSemiDark}}">
-                    <Button.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Red}, Dark={StaticResource RedDark}}"/>
-                    </Button.Behaviors>
-                </Button>
-                <Label
-                    FontSize="12"
-                    Text="Foul"
-                    HorizontalOptions="Center"/>
-            </VerticalStackLayout>
+            RowDefinitions="Auto,Auto,Auto,Auto,*"
+            RowSpacing="24"
+            Padding="8"
+            VerticalOptions="Fill">
+            <cntrl:ScoreHeadToHeadView
+                Grid.Row="0"
+                BindingContext="{Binding CurrentGameState}"
+                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:GameViewModel}}, Path=IsHeadToHead}"/>
+            <CollectionView
+                Grid.Row="0"
+                IsVisible="{Binding IsHeadToHead, Converter={StaticResource InvertedBoolConverter}}"
+                ItemsSource="{Binding CurrentGameState.Players}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.Header>
+                    <Label
+                        FontSize="Small"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Text="{Binding CurrentGameState.TargetScore, StringFormat='Race to {0}'}"/>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Player">
+                        <Border Style="{StaticResource AccentBorderStyle}">
+                            <cntrl:ScoreGeneralView/>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <cntrl:BreakView
+                Grid.Row="1"
+                BindingContext="{Binding PlayerAtTable}"/>
+
+            <Grid
+                Grid.Row="2"
+                ColumnDefinitions="*,*,*,*,*"
+                ColumnSpacing="8"
+                Margin="0,8">
+                <VerticalStackLayout Grid.Column="0" Spacing="10">
+                    <Button
+                        ImageSource="undo_icon.png"
+                        Command="{Binding UndoCommand}"
+                        Style="{StaticResource RoundIconButton}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource GraySemi}, Dark={StaticResource GraySemiDark}}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray}, Dark={StaticResource GrayDark}}"/>
+                        </Button.Behaviors>
+                    </Button>
+                    <Label
+                        FontSize="12"
+                        Text="Undo"
+                        HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="10">
+                    <Button
+                        ImageSource="plus_icon.png"
+                        Command="{Binding AddOnePointCommand}"
+                        Style="{StaticResource RoundIconButton}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource GreenSemi}, Dark={StaticResource GreenSemiDark}}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Green}, Dark={StaticResource GreenDark}}"/>
+                        </Button.Behaviors>
+                    </Button>
+                    <Label
+                        FontSize="12"
+                        Text="Add Point"
+                        HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" Spacing="10">
+                    <Button
+                        ImageSource="safe_icon.png"
+                        Command="{Binding SafeCommand}"
+                        Style="{StaticResource RoundIconButton}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource BlueSemi}, Dark={StaticResource BlueSemiDark}}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Blue}, Dark={StaticResource BlueDark}}"/>
+                        </Button.Behaviors>
+                    </Button>
+                    <Label
+                        FontSize="12"
+                        Text="Safe"
+                        HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="3" Spacing="10">
+                    <Button
+                        ImageSource="miss_icon.png"
+                        Command="{Binding MissCommand}"
+                        Style="{StaticResource RoundIconButton}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource GraySemi}, Dark={StaticResource GraySemiDark}}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray}, Dark={StaticResource GrayDark}}"/>
+                        </Button.Behaviors>
+                    </Button>
+                    <Label
+                        FontSize="12"
+                        Text="Miss"
+                        HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="4" Spacing="10">
+                    <Button
+                        ImageSource="foul_icon.png"
+                        Command="{Binding FoulCommand}"
+                        Style="{StaticResource RoundIconButton}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource RedSemi}, Dark={StaticResource RedSemiDark}}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Red}, Dark={StaticResource RedDark}}"/>
+                        </Button.Behaviors>
+                    </Button>
+                    <Label
+                        FontSize="12"
+                        Text="Foul"
+                        HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Border
+                Grid.Row="3"
+                Style="{StaticResource AccentBorderStyle}">
+                <VerticalStackLayout Spacing="4">
+                    <Grid ColumnDefinitions="*,*" Padding="8,0">
+                        <Label
+                            Grid.Column="0"
+                            FontSize="Body"
+                            Text="Rack number"/>
+                        <Label
+                            Grid.Column="1"
+                            FontSize="Body"
+                            HorizontalOptions="End"
+                            Text="{Binding CurrentGameState.CurrentRack}"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*" Padding="8,0">
+                        <Label
+                            Grid.Column="0"
+                            FontSize="Body"
+                            Text="Balls on table"/>
+                        <Label
+                            Grid.Column="1"
+                            FontSize="Body"
+                            HorizontalOptions="End"
+                            Text="{Binding CurrentGameState.BallsOnTable}"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <CollectionView
+                Grid.Row="4"
+                x:Name="BreakHistoryCollectionView"
+                ItemsSource="{Binding CurrentGameState.BreakHistory}"
+                VerticalOptions="Start"
+                MaximumHeightRequest="400">
+                <CollectionView.Header>
+                    <Label
+                        FontSize="12"
+                        Margin="0,0,0,8"
+                        HorizontalOptions="Center"
+                        Text="Break History"/>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Break">
+                        <cntrl:BreakHistoryItem/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
-
-        <Border
-            Style="{StaticResource AccentBorderStyle}">
-            <VerticalStackLayout Spacing="4">
-                <Grid ColumnDefinitions="*,*" Padding="8,0">
-                    <Label
-                        Grid.Column="0"
-                        FontSize="Body"
-                        Text="Rack number"/>
-                    <Label
-                        Grid.Column="1"
-                        FontSize="Body"
-                        HorizontalOptions="End"
-                        Text="{Binding CurrentGameState.CurrentRack}"/>
-                </Grid>
-                <Grid ColumnDefinitions="*,*" Padding="8,0">
-                    <Label
-                        Grid.Column="0"
-                        FontSize="Body"
-                        Text="Balls on table"/>
-                    <Label
-                        Grid.Column="1"
-                        FontSize="Body"
-                        HorizontalOptions="End"
-                        Text="{Binding CurrentGameState.BallsOnTable}"/>
-                </Grid>
-            </VerticalStackLayout>
-        </Border>
-
-        <CollectionView
-            ItemsSource="{Binding CurrentGameState.BreakHistory}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Break">
-                    <HorizontalStackLayout Spacing="8">
-                        <Label Text="{Binding PlayerName}"/>
-                        <Label Text="{Binding PointsScored}"/>
-                        <Label Text="{Binding EndAction}"/>
-                    </HorizontalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

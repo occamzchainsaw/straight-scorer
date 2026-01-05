@@ -8,9 +8,11 @@
              xmlns:cntrl="clr-namespace:StraightScorer.Maui.Views.Controls"
              xmlns:conv="clr-namespace:StraightScorer.Maui.Converters"
              x:Class="StraightScorer.Maui.Pages.SetupPage"
-             x:DataType="vm:SetupViewModel">
+             x:DataType="vm:SetupViewModel"
+             x:Name="SetupPageRoot">
     <ContentPage.Resources>
         <conv:IsValidationCollectionEmptyConverter x:Key="ValidationConverter"/>
+        <conv:BoolColumnSpanConverter x:Key="BoolColumnSpanConverter"/>
     </ContentPage.Resources>
 
     <Grid
@@ -43,52 +45,84 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PlayerSetupDto">
-                        <Border
-                            Style="{StaticResource CardBorderStyle}">
-                            <Grid
-                                RowDefinitions="*,*"
-                                ColumnDefinitions="*,*"
-                                RowSpacing="8"
-                                ColumnSpacing="16">
-                                <cntrl:LabeledTextEntry
-                                    Grid.Row="0" Grid.ColumnSpan="2"
-                                    LabelText="Player Name"
-                                    Text="{Binding Name}"
-                                    IsValid="{Binding IsNameValid}"/>
-                                <cntrl:LabeledNumericEntry
-                                    Grid.Row="1" Grid.Column="0"
-                                    LabelText="Head Start"
-                                    Text="{Binding HeadStart}"
-                                    IsValid="{Binding IsHeadStartValid}"/>
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItem
+                                        Text="Delete"
+                                        IconImageSource="delete_icon.png"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource RedSemi}, Dark={StaticResource RedSemiDark}}"
+                                        Command="{Binding Source={x:Reference SetupPageRoot}, Path=BindingContext.RemovePlayerCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <Border
+                                Style="{StaticResource CardBorderStyle}">
                                 <Grid
-                                    Grid.Row="1" Grid.Column="1"
+                                    RowDefinitions="*,*"
                                     ColumnDefinitions="*,*"
-                                    VerticalOptions="End"
-                                    Padding="0,0,0,4">
-                                    <Label
-                                        Grid.Column="0"
-                                        HorizontalOptions="Start"
-                                        VerticalOptions="Center"
-                                        FontSize="18"
-                                        Text="Is Starting"/>
-                                    <Switch
-                                        Grid.Column="1"
-                                        HorizontalOptions="End"
-                                        VerticalOptions="Center"
-                                        IsToggled="{Binding IsStarting}"/>
+                                    RowSpacing="8"
+                                    ColumnSpacing="16">
+                                    <cntrl:LabeledTextEntry
+                                        Grid.Row="0" Grid.ColumnSpan="2"
+                                        LabelText="Player Name"
+                                        Text="{Binding Name}"
+                                        IsValid="{Binding IsNameValid}"/>
+                                    <cntrl:LabeledNumericEntry
+                                        Grid.Row="1" Grid.Column="0"
+                                        LabelText="Head Start"
+                                        Text="{Binding HeadStart}"
+                                        IsValid="{Binding IsHeadStartValid}"/>
+                                    <Grid
+                                        Grid.Row="1" Grid.Column="1"
+                                        ColumnDefinitions="*,*"
+                                        VerticalOptions="End"
+                                        Padding="0">
+                                        <Label
+                                            Grid.Column="0"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center"
+                                            FontSize="16"
+                                            Text="Is Starting"/>
+                                        <Switch
+                                            Grid.Column="1"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="End"
+                                            IsToggled="{Binding IsStarting}"/>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Border>
+                            </Border>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <Button
+                        Style="{StaticResource RoundIconButton}"
+                        HorizontalOptions="Center"
+                        ImageSource="plus_icon.png"
+                        Command="{Binding AddPlayerCommand}"/>
+                </CollectionView.Footer>
             </CollectionView>
         </Grid>
 
-        <Button
+        <Grid
             Grid.Row="2"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="16"
             VerticalOptions="End"
-            HorizontalOptions="Fill"
-            Text="Start Match"
-            Command="{Binding StartGameCommand}"/>
+            HorizontalOptions="Fill">
+            <Button
+                Grid.Column="0"
+                Grid.ColumnSpan="{Binding IsGameInProgress, Converter={StaticResource BoolColumnSpanConverter}}"
+                HorizontalOptions="Fill"
+                Text="Start New Match"
+                Command="{Binding StartGameCommand}"/>
+            <Button
+                Grid.Column="1"
+                HorizontalOptions="Fill"
+                Text="Continue Match"
+                IsVisible="{Binding IsGameInProgress}"
+                Command="{Binding ContinueGameCommand}"/>
+        </Grid>
     </Grid>
 </ContentPage>

@@ -45,10 +45,18 @@ public partial class SetupViewModel : BaseViewModel
         {
             StartGameCommand.NotifyCanExecuteChanged();
         });
+        WeakReferenceMessenger.Default.Register<GameInProgressChangedMessage>(this, (r, m) =>
+        {
+            OnPropertyChanged(nameof(IsGameInProgress));
+        });
 
         ValidateAllProperties();
         StartGameCommand.NotifyCanExecuteChanged();
+        AddPlayerCommand.NotifyCanExecuteChanged();
+        RemovePlayerCommand.NotifyCanExecuteChanged();
     }
+
+    public bool IsGameInProgress => _gameState.GameInProgress;
 
     public ObservableCollection<PlayerSetupDto> PlayerSetups { get; private set; } = [];
     
@@ -72,11 +80,7 @@ public partial class SetupViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanStartGame))]
     async Task StartGame()
     {
-        if (_gameState.GameInProgress)
-        {
-            await _navigationService.NavigateToAsync("game");
-            return;
-        }
+        // todo: add popup asking if you really want to start new, when there is a game already going
 
         _gameState.SetupGame(PlayerSetups, TargetScore);
 
@@ -93,4 +97,37 @@ public partial class SetupViewModel : BaseViewModel
 
         return PlayerSetups.All(p => !p.HasErrors);
     }
+
+    [RelayCommand]
+    async Task ContinueGame()
+    {
+        await _navigationService.NavigateToAsync("game");
+    }
+
+    [RelayCommand(CanExecute = nameof(CanAddPlayer))]
+    void AddPlayer()
+    {
+        PlayerSetups.Add(new PlayerSetupDto(() => TargetScore)
+        {
+            Name = "New Player",
+            HeadStart = 0,
+            IsStarting = false,
+        });
+
+        AddPlayerCommand.NotifyCanExecuteChanged();
+        RemovePlayerCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool CanAddPlayer() => PlayerSetups.Count < 10;
+
+    [RelayCommand(CanExecute = nameof(CanRemovePlayer))]
+    void RemovePlayer(PlayerSetupDto player)
+    {
+        PlayerSetups.Remove(player);
+
+        AddPlayerCommand.NotifyCanExecuteChanged();
+        RemovePlayerCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool CanRemovePlayer() => PlayerSetups.Count > 1;
 }

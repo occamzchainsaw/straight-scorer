@@ -23,6 +23,9 @@
             </Border.Triggers>
             <Entry x:Name="InternalEntry"
                    Text="{Binding Text, Source={x:Reference this}}"
+                   FontSize="16"
+                   MinimumHeightRequest="16"
+                   HeightRequest="40"
                    VerticalTextAlignment="Center">
                 <Entry.Triggers>
                     <DataTrigger TargetType="Entry"
