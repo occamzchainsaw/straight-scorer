@@ -9,25 +9,157 @@
              xmlns:conv="clr-namespace:StraightScorer.Maui.Converters"
              xmlns:views="clr-namespace:StraightScorer.Maui.Views"
              xmlns:services="clr-namespace:StraightScorer.Core.Services;assembly=StraightScorer.Core"
+             xmlns:behaviors="clr-namespace:StraightScorer.Maui.Behaviors"
+             Title="Match"
              x:Class="StraightScorer.Maui.Pages.GamePage"
              x:DataType="vm:GameViewModel">
     <ContentPage.Resources>
-        <DataTemplate x:Key="HeadToHeadTemplate" x:DataType="{x:Type services:GameState}">
-
-        </DataTemplate>
-        <DataTemplate x:Key="ListTemplate" x:DataType="{x:Type services:GameState}">
-
-        </DataTemplate>
-        <views:ScoreViewSelector x:Key="ScoreSelector"
-                                 HeadToHeadTemplate="{StaticResource HeadToHeadTemplate}"
-                                 ListTemplate="{StaticResource ListTemplate}"/>
         <conv:IsValidationCollectionEmptyConverter x:Key="ValidationConverter"/>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
     </ContentPage.Resources>
 
     <VerticalStackLayout
-        Spacing="16"
+        Spacing="24"
+        Padding="8"
         VerticalOptions="Fill">
-        <Label Text="Game Page"
-               FontSize="Header"/>
+        <cntrl:ScoreHeadToHeadView
+            BindingContext="{Binding CurrentGameState}"
+            IsVisible="{Binding IsHeadToHead}"/>
+        <CollectionView
+            IsVisible="{Binding IsHeadToHead, Converter={StaticResource InvertedBoolConverter}}"
+            ItemsSource="{Binding CurrentGameState.Players}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Player">
+                    <Border Style="{StaticResource ScoreBorderStyle}">
+                        <cntrl:ScoreGeneralView/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <cntrl:BreakView
+            BindingContext="{Binding PlayerAtTable}"/>
+
+        <Grid
+            ColumnDefinitions="*,*,*,*,*"
+            ColumnSpacing="8"
+            Margin="0,8">
+            <VerticalStackLayout Grid.Column="0" Spacing="10">
+                <Button
+                    ImageSource="undo_icon.png"
+                    Command="{Binding UndoCommand}"
+                    Style="{StaticResource RoundIconButton}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource GraySemi}, Dark={StaticResource GraySemiDark}}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray}, Dark={StaticResource GrayDark}}"/>
+                    </Button.Behaviors>
+                </Button>
+                <Label
+                    FontSize="12"
+                    Text="Undo"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                <Button
+                    ImageSource="plus_icon.png"
+                    Command="{Binding AddOnePointCommand}"
+                    Style="{StaticResource RoundIconButton}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource GreenSemi}, Dark={StaticResource GreenSemiDark}}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Green}, Dark={StaticResource GreenDark}}"/>
+                    </Button.Behaviors>
+                </Button>
+                <Label
+                    FontSize="12"
+                    Text="Add Point"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="2" Spacing="10">
+                <Button
+                    ImageSource="safe_icon.png"
+                    Command="{Binding SafeCommand}"
+                    Style="{StaticResource RoundIconButton}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource BlueSemi}, Dark={StaticResource BlueSemiDark}}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Blue}, Dark={StaticResource BlueDark}}"/>
+                    </Button.Behaviors>
+                </Button>
+                <Label
+                    FontSize="12"
+                    Text="Safe"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="3" Spacing="10">
+                <Button
+                    ImageSource="miss_icon.png"
+                    Command="{Binding MissCommand}"
+                    Style="{StaticResource RoundIconButton}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource GraySemi}, Dark={StaticResource GraySemiDark}}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray}, Dark={StaticResource GrayDark}}"/>
+                    </Button.Behaviors>
+                </Button>
+                <Label
+                    FontSize="12"
+                    Text="Miss"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="4" Spacing="10">
+                <Button
+                    ImageSource="foul_icon.png"
+                    Command="{Binding FoulCommand}"
+                    Style="{StaticResource RoundIconButton}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource RedSemi}, Dark={StaticResource RedSemiDark}}">
+                    <Button.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Red}, Dark={StaticResource RedDark}}"/>
+                    </Button.Behaviors>
+                </Button>
+                <Label
+                    FontSize="12"
+                    Text="Foul"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <Border
+            Style="{StaticResource AccentBorderStyle}">
+            <VerticalStackLayout Spacing="4">
+                <Grid ColumnDefinitions="*,*" Padding="8,0">
+                    <Label
+                        Grid.Column="0"
+                        FontSize="Body"
+                        Text="Rack number"/>
+                    <Label
+                        Grid.Column="1"
+                        FontSize="Body"
+                        HorizontalOptions="End"
+                        Text="{Binding CurrentGameState.CurrentRack}"/>
+                </Grid>
+                <Grid ColumnDefinitions="*,*" Padding="8,0">
+                    <Label
+                        Grid.Column="0"
+                        FontSize="Body"
+                        Text="Balls on table"/>
+                    <Label
+                        Grid.Column="1"
+                        FontSize="Body"
+                        HorizontalOptions="End"
+                        Text="{Binding CurrentGameState.BallsOnTable}"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <CollectionView
+            ItemsSource="{Binding CurrentGameState.BreakHistory}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Break">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="{Binding PlayerName}"/>
+                        <Label Text="{Binding PointsScored}"/>
+                        <Label Text="{Binding EndAction}"/>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

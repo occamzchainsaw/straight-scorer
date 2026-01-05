@@ -1,18 +1,29 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using StraightScorer.Core.Models;
 using StraightScorer.Core.Services;
 
 namespace StraightScorer.Maui.ViewModels;
 
 public partial class GameViewModel : BaseViewModel
 {
-    private readonly GameState _gameState;
-
     public GameViewModel(GameState gameState)
     {
-        _gameState = gameState;
+        CurrentGameState = gameState;
+
+        CurrentGameState.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(CurrentGameState.PlayerAtTableId))
+                OnPropertyChanged(nameof(PlayerAtTable));
+        };
     }
+
+    [ObservableProperty]
+    public partial GameState CurrentGameState { get; set; }
+
+    public bool IsHeadToHead => CurrentGameState.Players.Count == 2;
+    public Player PlayerAtTable => CurrentGameState.GetPlayerAtTable();
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
@@ -22,7 +33,7 @@ public partial class GameViewModel : BaseViewModel
     private static ValidationResult? ValidatePointsToAdd(int points, ValidationContext context)
     {
         var instance = (GameViewModel)context.ObjectInstance;
-        int max = instance._gameState.TargetScore;
+        int max = instance.CurrentGameState.TargetScore;
 
         if (points < 1 || points > max)
             return new ValidationResult("Invalid");
@@ -33,7 +44,7 @@ public partial class GameViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanAddPoints))]
     void AddPoints()
     {
-        _gameState.AddPoints(PointsToAdd);
+        CurrentGameState.AddPoints(PointsToAdd);
     }
 
     private bool CanAddPoints()
@@ -44,24 +55,30 @@ public partial class GameViewModel : BaseViewModel
     [RelayCommand]
     void AddOnePoint()
     {
-        _gameState.AddPoints(1);
+        CurrentGameState.AddPoints(1);
     }
 
     [RelayCommand]
     void Miss()
     {
-        _gameState.Miss();
+        CurrentGameState.Miss();
     }
 
     [RelayCommand]
     void Safe()
     {
-        _gameState.Safe();
+        CurrentGameState.Safe();
     }
 
     [RelayCommand]
     void Foul()
     {
-        _gameState.Foul();
+        CurrentGameState.Foul();
+    }
+
+    [RelayCommand]
+    void Undo()
+    {
+        CurrentGameState.UndoLastAction();
     }
 }

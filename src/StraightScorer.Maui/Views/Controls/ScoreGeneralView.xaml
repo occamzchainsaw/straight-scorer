@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:StraightScorer.Maui.Behaviors"
+             xmlns:models="clr-namespace:StraightScorer.Core.Models;assembly=StraightScorer.Core"
+             x:Class="StraightScorer.Maui.Views.Controls.ScoreGeneralView"
+             x:DataType="models:Player">
+    <Grid
+        ColumnDefinitions="10,*,Auto">
+        <BoxView
+            Grid.Column="0"
+            Style="{StaticResource ActivePlayerIndicatorStyle}">
+            <BoxView.Behaviors>
+                <behaviors:ActivePlayerIndicatorBehavior IsActive="{Binding IsAtTable}"/>
+            </BoxView.Behaviors>
+        </BoxView>
+        <Label
+            Grid.Column="1"
+            FontSize="24"
+            HorizontalOptions="Start"
+            VerticalOptions="Center"
+            Text="{Binding Name}"/>
+        <Label
+            Grid.Column="2"
+            FontSize="48"
+            HorizontalOptions="End"
+            VerticalOptions="Center"
+            Text="{Binding Score}"/>
+    </Grid>
+</ContentView>

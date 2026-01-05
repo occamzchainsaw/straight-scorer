@@ -13,6 +13,12 @@ public class SafeCommand(GameState _gameState) : IUndoRedoCommand
     {
         // save previous state
         Player player = _gameState.GetPlayerAtTable();
+        _gameState.BreakHistory.Add(new Break
+        {
+            PlayerName = player.Name,
+            PointsScored = player.CurrentBreak,
+            EndAction = BreakEndAction.Safe
+        });
         _previousPlayerAtTableId = _gameState.PlayerAtTableId;
         _nextPlayerAtTableId = _gameState.GetNextPlayerId();
         _previousBreak = player.CurrentBreak;
@@ -35,5 +41,7 @@ public class SafeCommand(GameState _gameState) : IUndoRedoCommand
         player = _gameState.GetPlayerAtTable();
         player.CurrentBreak = _previousBreak;
         player.IsAtTable = true;
+
+        _gameState.RemoveLastBreakFromHistory();
     }
 }

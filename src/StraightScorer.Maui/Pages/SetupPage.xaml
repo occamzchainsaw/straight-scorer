@@ -16,7 +16,7 @@
     <Grid
         RowDefinitions="Auto,*,Auto"
         RowSpacing="32"
-        Padding="16,24,16,24">
+        Padding="8,16">
 
         <cntrl:LabeledNumericEntry
             Grid.Row="0"
@@ -44,7 +44,6 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PlayerSetupDto">
                         <Border
-                            Grid.Row="1"
                             Style="{StaticResource CardBorderStyle}">
                             <Grid
                                 RowDefinitions="*,*"

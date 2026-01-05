@@ -14,6 +14,11 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
     public void Execute()
     {
         Player player = _gameState.GetPlayerAtTable();
+        Break newBreak = new()
+        {
+            PlayerName = player.Name,
+            EndAction = BreakEndAction.Foul
+        };
         _previousPlayerAtTableId = _gameState.PlayerAtTableId;
         _nextPlayerAtTableId = _gameState.GetNextPlayerId();
         _previousScore = player.Score;
@@ -26,13 +31,16 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
             // third consecutive foul
             player.Score -= 15;
             player.ConsecutiveFouls = 0;
+            newBreak.PointsScored = -15;
         }
         else
         {
             player.Score--;
-            player.CurrentBreak--;
             player.ConsecutiveFouls++;
+            newBreak.PointsScored = player.CurrentBreak - 1;
         }
+        _gameState.BreakHistory.Add(newBreak);
+        player.CurrentBreak = 0;
         player.IsAtTable = false;
 
         _gameState.PlayerAtTableId = _nextPlayerAtTableId;
@@ -52,5 +60,7 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
         player.CurrentBreak = _previousBreak;
         player.ConsecutiveFouls = _previousConsecutiveFouls;
         player.IsAtTable = true;
+
+        _gameState.RemoveLastBreakFromHistory();
     }
 }

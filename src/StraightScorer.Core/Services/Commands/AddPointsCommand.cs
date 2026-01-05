@@ -29,6 +29,12 @@ public class AddPointsCommand(
             player.CurrentBreak += _pointsToAdd;
             _gameFinished = true;
             _gameState.EndGame();
+            _gameState.BreakHistory.Add(new Break
+            {
+                PlayerName = player.Name,
+                PointsScored = player.CurrentBreak,
+                EndAction = BreakEndAction.Win
+            });
             return;
         }
         player.Score += _pointsToAdd;
@@ -44,6 +50,7 @@ public class AddPointsCommand(
         _gameState.BallsOnTable = _previousBallsOnTable;
         if (_gameFinished)
         {
+            _gameState.RemoveLastBreakFromHistory();
             _gameState.UndoEndGame();
         }
     }
@@ -54,7 +61,10 @@ public class AddPointsCommand(
         {
             _gameState.BallsOnTable--;
             if (_gameState.BallsOnTable == 1)
+            {
                 _gameState.BallsOnTable = 15;
+                _gameState.CurrentRack++;
+            }
         }
     }
 }

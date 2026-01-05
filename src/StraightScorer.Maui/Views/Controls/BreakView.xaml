@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:StraightScorer.Core.Models;assembly=StraightScorer.Core"
+             x:Class="StraightScorer.Maui.Views.Controls.BreakView"
+             x:DataType="models:Player">
+    <Border
+        Style="{StaticResource AccentBorderStyle}"
+        Padding="0">
+        <Grid RowDefinitions="24,*">
+            <Label
+                Grid.Row="0"
+                FontSize="Small"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="Current Break"/>
+            <Grid
+                Grid.Row="1"
+                ColumnDefinitions="*,*"
+                Padding="16,8">
+                <Label
+                    Grid.Column="0"
+                    FontSize="24"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Text="{Binding Name}"/>
+                <Label
+                    Grid.Column="1"
+                    FontSize="32"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Text="{Binding CurrentBreak}"/>
+            </Grid>
+        </Grid>
+    </Border>
+</ContentView>

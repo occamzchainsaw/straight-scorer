@@ -10,7 +10,9 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
 {
     [ObservableProperty] bool _gameInProgress;
     public ObservableCollection<Player> Players { get; } = [];
+    public ObservableCollection<Break> BreakHistory { get; } = [];
     [ObservableProperty] int _ballsOnTable = 15;
+    [ObservableProperty] int _currentRack = 1;
     [ObservableProperty] int _targetScore = 100;
     [ObservableProperty] int _playerAtTableId;
     [ObservableProperty] int _winningPlayerId = -1;
@@ -32,6 +34,7 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
             });
         }
         PlayerAtTableId = Players.First(p => p.IsAtTable).Id;
+        BreakHistory.Clear();
         GameInProgress = true;
     }
 
@@ -90,6 +93,11 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
         if (nextId >= Players.Count)
             nextId = 0;
         return nextId;
+    }
+
+    public void RemoveLastBreakFromHistory()
+    {
+        BreakHistory.RemoveAt(BreakHistory.Count - 1);
     }
 
     public void EndGame()

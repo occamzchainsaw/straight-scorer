@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:StraightScorer.Maui.Behaviors"
+             xmlns:services="clr-namespace:StraightScorer.Core.Services;assembly=StraightScorer.Core"
+             x:Class="StraightScorer.Maui.Views.Controls.ScoreHeadToHeadView"
+             x:DataType="services:GameState">
+    <Border
+        Style="{StaticResource AccentBorderStyle}"
+        Padding="0">
+        <Grid RowDefinitions="24,*">
+            <Label
+                Grid.Row="0"
+                FontSize="Small"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Text="{Binding TargetScore, StringFormat='Race to {0}'}"/>
+            <Grid
+                Grid.Row="1"
+                RowDefinitions="48,*"
+                ColumnDefinitions="16,*,3,*,16"
+                ColumnSpacing="8"
+                Padding="8,0,8,8">
+                <BoxView
+                    Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                    Style="{StaticResource ActivePlayerIndicatorStyle}">
+                    <BoxView.Behaviors>
+                        <behaviors:ActivePlayerIndicatorBehavior IsActive="{Binding Players[0].IsAtTable}"/>
+                    </BoxView.Behaviors>
+                </BoxView>
+                <Label
+                    Grid.Row="0" Grid.Column="1"
+                    Margin="4,0"
+                    FontSize="24"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Text="{Binding Players[0].Name}"/>
+                <Label
+                    Grid.Row="1" Grid.Column="1"
+                    Margin="4,0"
+                    FontSize="48"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    Text="{Binding Players[0].Score}"/>
+                <BoxView
+                    Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                    Margin="0,16,0,12"
+                    Style="{StaticResource VerticalSeparatorStyle}"/>
+                <Label
+                    Grid.Row="1" Grid.Column="3"
+                    Margin="4,0"
+                    FontSize="48"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Text="{Binding Players[1].Score}"/>
+                <Label
+                    Grid.Row="0" Grid.Column="3"
+                    Margin="4,0"
+                    FontSize="24"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Text="{Binding Players[1].Name}"/>
+                <BoxView
+                    Grid.Row="0" Grid.Column="4" Grid.RowSpan="2"
+                    Style="{StaticResource ActivePlayerIndicatorStyle}">
+                    <BoxView.Behaviors>
+                        <behaviors:ActivePlayerIndicatorBehavior IsActive="{Binding Players[1].IsAtTable}"/>
+                    </BoxView.Behaviors>
+                </BoxView>
+            </Grid>
+        </Grid>
+    </Border>
+</ContentView>
