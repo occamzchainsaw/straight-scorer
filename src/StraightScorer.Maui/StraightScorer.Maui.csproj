@@ -59,6 +59,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Markdig" Version="0.44.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
@@ -70,6 +71,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\RulesPage.xaml.cs">
+	    <DependentUpon>RulesPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Controls\LabeledNumericEntry.xaml.cs">
 	    <DependentUpon>LabeledNumericEntry.xaml</DependentUpon>
 	  </Compile>
@@ -82,7 +86,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\InfoPage.xaml">
+	  <MauiXaml Update="Pages\RulesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SettingsPage.xaml">

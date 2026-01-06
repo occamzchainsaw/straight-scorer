@@ -15,5 +15,6 @@ public enum BreakEndAction
     Safe,
     Miss,
     Foul,
+    ThirdFoul,
     Win
 }

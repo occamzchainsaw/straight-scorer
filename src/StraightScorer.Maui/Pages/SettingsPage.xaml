@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:StraightScorer.Maui.ViewModels"
              x:Class="StraightScorer.Maui.Pages.SettingsPage"
-             Title="Settings">
-    <VerticalStackLayout>
-        <Label
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="vm:SettingsViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="24"
+            Padding="8,16">
+
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontSize="18"
+                    Text="App Settings"/>
+
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="4">
+                        <Label
+                            Grid.Row="0" Grid.Column="0"
+                            Text="App Theme"
+                            VerticalOptions="Center"/>
+                        <Picker
+                            Grid.Row="0" Grid.Column="1"
+                            Title="Select Theme"
+                            ItemsSource="{Binding AvailableThemes}"
+                            SelectedItem="{Binding Settings.CurrentTheme}"
+                            WidthRequest="144"/>
+                        <Label
+                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                            Text="Unspecified should follow the device theme"
+                            FontSize="12"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontSize="18"
+                    Text="Game Settings"/>
+
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="4">
+                        <Label
+                            Grid.Row="0" Grid.Column="0"
+                            Text="Reset Rack on 3rd Consecutive Foul"
+                            VerticalOptions="Center"/>
+                        <Switch
+                            Grid.Row="0" Grid.Column="1"
+                            IsToggled="{Binding Settings.ResetRackOnThirdFoul}"/>
+                        <Label
+                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                            Text="If a player commits a third consecutive foul, automatically resets the rack and requires the offending player to play an opening break shot."
+                            FontSize="12"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

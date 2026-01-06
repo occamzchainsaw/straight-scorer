@@ -7,6 +7,7 @@ using StraightScorer.Core.Services;
 using StraightScorer.Core.Services.Interfaces;
 using StraightScorer.Maui.Pages;
 using StraightScorer.Maui.Services;
+using StraightScorer.Maui.Services.Interfaces;
 using StraightScorer.Maui.ViewModels;
 
 namespace StraightScorer.Maui;
@@ -37,12 +38,17 @@ public static class MauiProgram
 		builder.Services.AddSingleton<App>();
 		builder.Services.AddSingleton<IUndoRedoService, UndoRedoService>();
 		builder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
+		var settingsService = new SettingsService();
+		builder.Services.AddSingleton(settingsService);
+		builder.Services.AddSingleton<IGameSettings>(settingsService);
 
 		builder.Services.AddTransient<GamePage>();
 		builder.Services.AddTransient<SetupPage>();
+		builder.Services.AddTransient<SettingsPage>();
 
 		builder.Services.AddTransient<SetupViewModel>();
 		builder.Services.AddTransient<GameViewModel>();
+		builder.Services.AddTransient<SettingsViewModel>();
 
 		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("CleanEntry", (handler, view) =>
 		{

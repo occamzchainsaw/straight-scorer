@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using StraightScorer.Core.Models;
 using StraightScorer.Core.Services;
-using StraightScorer.Core.Services.Interfaces;
+using StraightScorer.Maui.Services.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 

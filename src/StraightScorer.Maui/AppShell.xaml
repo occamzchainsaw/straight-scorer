@@ -6,30 +6,70 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:local="clr-namespace:StraightScorer.Maui"
     xmlns:pages="clr-namespace:StraightScorer.Maui.Pages"
-    Title="StraightScorer">
+    Title="Straight Scorer"
 
-    <Shell.Resources>
-        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
-    </Shell.Resources>
+    FlyoutBehavior="Flyout"
+
+    Shell.BackgroundColor="{AppThemeBinding Light={DynamicResource White}, Dark={DynamicResource OffBlack}}"
+    Shell.ForegroundColor="{AppThemeBinding Light={DynamicResource Primary}, Dark={DynamicResource PrimaryDark}}"
+    Shell.TitleColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}"
+
+    FlyoutBackgroundColor="{AppThemeBinding Light={DynamicResource White}, Dark={DynamicResource OffBlack}}"
+
+    Shell.UnselectedColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}"
+    Shell.DisabledColor="{AppThemeBinding Light={DynamicResource Gray400}, Dark={DynamicResource Gray600}}">
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="0.2*, 0.8*" Padding="10" HeightRequest="50">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={DynamicResource Gray200}, Dark={DynamicResource Gray900}}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Image Source="{Binding Icon}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       HeightRequest="24" WidthRequest="24">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior
+                            TintColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}" />
+                    </Image.Behaviors>
+                </Image>
+                <Label Grid.Column="1"
+                       Text="{Binding Title}"
+                       VerticalOptions="Center"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
 
     <ShellContent
-        Title="Setup"
+        Title="Game Setup"
+        Icon="game_setup_icon.png"
         ContentTemplate="{DataTemplate pages:SetupPage}"
         Route="setup" />
 
     <ShellContent
         Title="Settings"
+        Icon="settings_icon.png"
         ContentTemplate="{DataTemplate pages:SettingsPage}"
         Route="settings" />
 
     <ShellContent
-        Title="Info"
-        ContentTemplate="{DataTemplate pages:InfoPage}"
-        Route="info" />
-
-    <!--<ShellContent
-    Title="Home"
-    ContentTemplate="{DataTemplate local:MainPage}"
-    Route="MainPage" />-->
+        Title="Rules"
+        Icon="rules_icon.png"
+        ContentTemplate="{DataTemplate pages:RulesPage}"
+        Route="rules" />
 
 </Shell>

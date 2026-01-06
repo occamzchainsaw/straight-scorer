@@ -1,4 +1,4 @@
-﻿namespace StraightScorer.Core.Services.Interfaces;
+﻿namespace StraightScorer.Maui.Services.Interfaces;
 
 public interface INavigationService
 {

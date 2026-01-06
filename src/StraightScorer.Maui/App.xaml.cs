@@ -1,16 +1,20 @@
-﻿using StraightScorer.Core.Services;
+﻿using StraightScorer.Maui.Services;
 
 namespace StraightScorer.Maui;
 
 public partial class App : Application
 {
 	private readonly AppShell _shell;
-	public App(AppShell shell)
+	public App(IServiceProvider serviceProvider, AppShell shell)
 	{
 		InitializeComponent();
 		_shell = shell;
-		// toremove
-		Application.Current.UserAppTheme = AppTheme.Light;
+
+		var settings = serviceProvider.GetService<SettingsService>();
+		if (settings != null)
+		{
+			UserAppTheme = settings.CurrentTheme;
+		}
 	}
 
     protected override Window CreateWindow(IActivationState? activationState)

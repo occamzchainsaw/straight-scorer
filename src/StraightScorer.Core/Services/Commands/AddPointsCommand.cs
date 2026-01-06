@@ -11,6 +11,7 @@ public class AddPointsCommand(
     private int _previousBreak;
     private int _previousFouls;
     private int _previousBallsOnTable;
+    private int _previousRackNumber;
     private bool _gameFinished = false;
 
     public void Execute()
@@ -21,6 +22,7 @@ public class AddPointsCommand(
         _previousBreak = player.CurrentBreak;
         _previousFouls = player.ConsecutiveFouls;
         _previousBallsOnTable = _gameState.BallsOnTable;
+        _previousRackNumber = _gameState.CurrentRack;
 
         // update score and break
         if (player.Score + _pointsToAdd >= _gameState.TargetScore)
@@ -47,6 +49,7 @@ public class AddPointsCommand(
         player.CurrentBreak = _previousBreak;
         player.ConsecutiveFouls = _previousFouls;
         _gameState.BallsOnTable = _previousBallsOnTable;
+        _gameState.CurrentRack = _previousRackNumber;
         if (_gameFinished)
         {
             _gameState.RemoveLastBreakFromHistory();

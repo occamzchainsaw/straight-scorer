@@ -1,4 +1,4 @@
-﻿using StraightScorer.Core.Services.Interfaces;
+﻿using StraightScorer.Maui.Services.Interfaces;
 
 namespace StraightScorer.Maui.Services;
 

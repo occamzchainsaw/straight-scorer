@@ -17,6 +17,7 @@ public class BreakEndActionColorConverter : IValueConverter
                 return action switch
                 {
                     BreakEndAction.Foul => Application.Current.Resources["Red"],
+                    BreakEndAction.ThirdFoul => Application.Current.Resources["Red"],
                     BreakEndAction.Safe => Application.Current.Resources["Blue"],
                     BreakEndAction.Miss => Application.Current.Resources["Gray"],
                     BreakEndAction.Win => Application.Current.Resources["Green"],
@@ -28,6 +29,7 @@ public class BreakEndActionColorConverter : IValueConverter
                 return action switch
                 {
                     BreakEndAction.Foul => Application.Current.Resources["RedDark"],
+                    BreakEndAction.ThirdFoul => Application.Current.Resources["RedDark"],
                     BreakEndAction.Safe => Application.Current.Resources["BlueDark"],
                     BreakEndAction.Miss => Application.Current.Resources["Gray800"],
                     BreakEndAction.Win => Application.Current.Resources["GreenDark"],

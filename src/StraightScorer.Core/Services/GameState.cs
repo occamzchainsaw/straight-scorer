@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace StraightScorer.Core.Services;
 
-public partial class GameState(IUndoRedoService _undoRedoService) : ObservableObject
+public partial class GameState(IUndoRedoService _undoRedoService, IGameSettings _gameSettings) : ObservableObject
 {
     [ObservableProperty] bool _gameInProgress;
     public ObservableCollection<Player> Players { get; } = [];
@@ -17,6 +17,8 @@ public partial class GameState(IUndoRedoService _undoRedoService) : ObservableOb
     [ObservableProperty] int _targetScore = 100;
     [ObservableProperty] int _playerAtTableId;
     [ObservableProperty] int _winningPlayerId = -1;
+
+    public IGameSettings GameSettings => _gameSettings;
 
     public void SetupGame(ICollection<PlayerSetupDto> players, int targetScore)
     {
