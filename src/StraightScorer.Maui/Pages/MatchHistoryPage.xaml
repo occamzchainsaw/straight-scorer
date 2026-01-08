@@ -10,121 +10,121 @@
 
     <!-- Expanders maybe? -->
 
-    <ScrollView>
-        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="24" Padding="8,16,8,24">
-            <Label
-                Grid.Row="0"
-                FontSize="18"
-                Text="Match History"/>
-            <CollectionView
-                Grid.Row="1"
-                ItemsSource="{Binding MatchResults}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout
-                        Orientation="Vertical"
-                        ItemSpacing="8"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:MatchResult">
-                        <SwipeView>
-                            <SwipeView.LeftItems>
-                                <SwipeItems Mode="Execute">
-                                    <SwipeItem
-                                        Text="Delete"
-                                        IconImageSource="delete_icon.png"
-                                        BackgroundColor="{AppThemeBinding Light={StaticResource RedSemi}, Dark={StaticResource RedSemiDark}}"
-                                        Command="{Binding Source={x:Reference HistoryPageRoot}, Path=BindingContext.DeleteMatchCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                </SwipeItems>
-                            </SwipeView.LeftItems>
-                            <Border
-                                StrokeShape="RoundRectangle 12"
-                                Padding="16">
-                                <Grid
-                                    RowDefinitions="Auto,*" RowSpacing="8"
-                                    ColumnDefinitions="*,*" ColumnSpacing="8">
-                                    <Label
-                                        Grid.Row="0" Grid.Column="0"
-                                        HorizontalOptions="Start"
-                                        Text="{Binding MatchDate, StringFormat='{}{0:MMMM dd, yyyy HH:mm}'}"/>
-                                    <Label
-                                        Grid.Row="0" Grid.Column="1"
-                                        HorizontalOptions="End"
-                                        Text="{Binding WinnerName, StringFormat='Winner: {0}'}"/>
-                                    <CollectionView
-                                        Grid.Row="1" Grid.ColumnSpan="2"
-                                        ItemsSource="{Binding Players}">
-                                        <CollectionView.ItemsLayout>
-                                            <LinearItemsLayout
-                                                Orientation="Vertical"
-                                                ItemSpacing="8"/>
-                                        </CollectionView.ItemsLayout>
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:PlayerMatchSummary">
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="24" Padding="8,16,8,24">
+        <Label
+            Grid.Row="0"
+            FontSize="18"
+            Text="Match History"/>
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding MatchResults}"
+            SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout
+                    Orientation="Vertical"
+                    ItemSpacing="8"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MatchResult">
+                    <SwipeView>
+                        <SwipeView.LeftItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem
+                                    Text="Delete"
+                                    IconImageSource="delete_icon.png"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource RedSemi}, Dark={StaticResource RedSemiDark}}"
+                                    Command="{Binding Source={x:Reference HistoryPageRoot}, Path=BindingContext.DeleteMatchCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <Border
+                            StrokeShape="RoundRectangle 12"
+                            Padding="16">
+                            <Grid
+                                RowDefinitions="Auto,*" RowSpacing="8"
+                                ColumnDefinitions="*,*" ColumnSpacing="8">
+                                <Label
+                                    Grid.Row="0" Grid.Column="0"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding MatchDate, StringFormat='{}{0:MMMM dd, yyyy HH:mm}'}"/>
+                                <Label
+                                    Grid.Row="0" Grid.Column="1"
+                                    HorizontalOptions="End"
+                                    Text="{Binding WinnerName, StringFormat='Winner: {0}'}"/>
+                                <CollectionView
+                                    Grid.Row="1" Grid.ColumnSpan="2"
+                                    ItemsSource="{Binding Players}">
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout
+                                            Orientation="Vertical"
+                                            ItemSpacing="8"/>
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:PlayerMatchSummary">
+                                            <Grid
+                                                RowDefinitions="Auto,Auto" RowSpacing="6"
+                                                Padding="6,2">
                                                 <Grid
-                                                    RowDefinitions="Auto,Auto" RowSpacing="6"
-                                                    Padding="6,2">
-                                                    <Grid
-                                                        Grid.Row="0"
-                                                        ColumnDefinitions="*,*" ColumnSpacing="6">
-                                                        <Label
-                                                            Grid.Row="0" Grid.Column="0"
-                                                            HorizontalOptions="Start"
-                                                            FontAttributes="Bold"
-                                                            Text="{Binding Name}"/>
-                                                        <Label
-                                                            Grid.Row="0" Grid.Column="1"
-                                                            HorizontalOptions="End"
-                                                            FontAttributes="Bold"
-                                                            Text="{Binding FinalScore}"/>
-                                                    </Grid>
-                                                    <Grid
-                                                        Grid.Row="1"
-                                                        ColumnDefinitions="*,*,*" ColumnSpacing="16">
-                                                        <Border
-                                                            Grid.Column="0"
-                                                            Style="{StaticResource SummaryHighBreakBorder}">
-                                                            <Label
-                                                                VerticalOptions="Center"
-                                                                HorizontalOptions="Center"
-                                                                FontSize="Small"
-                                                                Text="{Binding HighestBreak, StringFormat='High: {0}'}"/>
-                                                        </Border>
-                                                        <Border
-                                                            Grid.Column="1"
-                                                            Style="{StaticResource SummaryAverageBreakBorder}">
-                                                            <Label
-                                                                VerticalOptions="Center"
-                                                                HorizontalOptions="Center"
-                                                                FontSize="Small"
-                                                                Text="{Binding AverageBreak, StringFormat='Avg: {0}'}"/>
-                                                        </Border>
-                                                        <Border
-                                                            Grid.Column="2"
-                                                            Style="{StaticResource SummaryFoulsBorder}">
-                                                            <Label
-                                                                VerticalOptions="Center"
-                                                                HorizontalOptions="Center"
-                                                                FontSize="Small"
-                                                                Text="{Binding TotalFouls, StringFormat='Fouls: {0}'}"/>
-                                                        </Border>
-                                                    </Grid>
+                                                    Grid.Row="0"
+                                                    ColumnDefinitions="*,*" ColumnSpacing="6">
+                                                    <Label
+                                                        Grid.Row="0" Grid.Column="0"
+                                                        HorizontalOptions="Start"
+                                                        FontAttributes="Bold"
+                                                        Text="{Binding Name}"/>
+                                                    <Label
+                                                        Grid.Row="0" Grid.Column="1"
+                                                        HorizontalOptions="End"
+                                                        FontAttributes="Bold"
+                                                        Text="{Binding FinalScore}"/>
                                                 </Grid>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-                                </Grid>
-                            </Border>
-                        </SwipeView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Button
-                Grid.Row="2"
-                HorizontalOptions="Fill"
-                Text="Clear History"
-                Command="{Binding ClearHistoryCommand}"/>
-        </Grid>
-    </ScrollView>
+                                                <Grid
+                                                    Grid.Row="1"
+                                                    ColumnDefinitions="*,*,*" ColumnSpacing="16">
+                                                    <Border
+                                                        Grid.Column="0"
+                                                        Style="{StaticResource SummaryHighBreakBorder}">
+                                                        <Label
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center"
+                                                            FontSize="Small"
+                                                            Text="{Binding HighestBreak, StringFormat='High: {0}'}"/>
+                                                    </Border>
+                                                    <Border
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource SummaryAverageBreakBorder}">
+                                                        <Label
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center"
+                                                            FontSize="Small"
+                                                            Text="{Binding AverageBreak, StringFormat='Avg: {0}'}"/>
+                                                    </Border>
+                                                    <Border
+                                                        Grid.Column="2"
+                                                        Style="{StaticResource SummaryFoulsBorder}">
+                                                        <Label
+                                                            VerticalOptions="Center"
+                                                            HorizontalOptions="Center"
+                                                            FontSize="Small"
+                                                            Text="{Binding TotalFouls, StringFormat='Fouls: {0}'}"/>
+                                                    </Border>
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Grid>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button
+            Grid.Row="2"
+            VerticalOptions="End"
+            HorizontalOptions="Fill"
+            Text="Clear History"
+            Command="{Binding ClearHistoryCommand}"/>
+    </Grid>
 
 </ContentPage>

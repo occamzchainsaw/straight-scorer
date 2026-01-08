@@ -9,6 +9,7 @@ using StraightScorer.Maui.Pages;
 using StraightScorer.Maui.Services;
 using StraightScorer.Maui.Services.Interfaces;
 using StraightScorer.Maui.ViewModels;
+using StraightScorer.Maui.Views.Popup;
 
 namespace StraightScorer.Maui;
 
@@ -47,6 +48,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<SetupPage>();
 		builder.Services.AddTransient<SettingsPage>();
 		builder.Services.AddTransient<MatchHistoryPage>();
+
+		builder.Services.AddTransient<EndGamePopup>();
 
 		builder.Services.AddTransient<SetupViewModel>();
 		builder.Services.AddTransient<GameViewModel>();

@@ -30,6 +30,7 @@ public partial class MatchHistoryViewModel : BaseViewModel
             {
                 MatchResults.Add(match);
             }
+            ClearHistoryCommand.NotifyCanExecuteChanged();
         }
         finally
         {
@@ -44,6 +45,7 @@ public partial class MatchHistoryViewModel : BaseViewModel
 
         await _matchHistoryService.DeleteMatchResultAsync(match);
         MatchResults.Remove(match);
+        ClearHistoryCommand.NotifyCanExecuteChanged();
     }
 
     [RelayCommand(CanExecute = nameof(CanClear))]
@@ -51,6 +53,7 @@ public partial class MatchHistoryViewModel : BaseViewModel
     {
         await _matchHistoryService.ClearMatchHistoryAsync();
         MatchResults.Clear();
+        ClearHistoryCommand.NotifyCanExecuteChanged();
     }
 
     private bool CanClear()

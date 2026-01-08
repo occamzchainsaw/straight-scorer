@@ -32,7 +32,12 @@ public partial class GameViewModel : BaseViewModel
             {
                 WinningPlayer = CurrentGameState.GetPlayer(CurrentGameState.WinningPlayerId);
                 if (WinningPlayer is not null)
+                {
+                    if (_popupNavigation.PopupStack.Any(p => p is EndGamePopup))
+                        return;
+
                     await _popupNavigation.PushAsync(new EndGamePopup(this));
+                }
             }
 
             if (e.PropertyName == nameof(CurrentGameState.GameInProgress))
