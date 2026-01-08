@@ -33,7 +33,7 @@
                 IsVisible="{Binding IsHeadToHead, Converter={StaticResource InvertedBoolConverter}}"
                 ItemsSource="{Binding CurrentGameState.Players}">
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2"/>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="4"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.Header>
                     <Label

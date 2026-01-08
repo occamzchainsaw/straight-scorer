@@ -121,7 +121,8 @@ public partial class GameState(IUndoRedoService _undoRedoService, IGameSettings 
     public void RemoveLastBreakFromHistory()
     {
         BreakHistory.RemoveAt(BreakHistory.Count - 1);
-        BreakHistory.Last().IsLast = true;
+        if (BreakHistory.Count > 0)
+            BreakHistory.Last().IsLast = true;
     }
 
     public void EndGame()

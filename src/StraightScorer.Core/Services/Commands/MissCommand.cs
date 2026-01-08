@@ -9,6 +9,10 @@ public class MissCommand(GameState _gameState): IUndoRedoCommand
     private int _nextPlayerAtTableId;
     private int _previousBreak;
     private int _previousFouls;
+    private int _previousHighestBreak;
+    private float _previousAverageBreak;
+    private int _previousBreakSum;
+    private int _previousBreakCount;
 
     public void Execute()
     {
@@ -19,6 +23,15 @@ public class MissCommand(GameState _gameState): IUndoRedoCommand
         _nextPlayerAtTableId = _gameState.GetNextPlayerId();
         _previousBreak = player.CurrentBreak;
         _previousFouls = player.ConsecutiveFouls;
+        _previousHighestBreak = player.HighestBreak;
+        _previousAverageBreak = player.AverageBreak;
+        _previousBreakSum = player.BreakSum;
+        _previousBreakCount = player.BreakCount;
+
+        player.BreakCount++;
+        player.BreakSum += player.CurrentBreak;
+        player.AverageBreak = player.BreakSum / player.BreakCount;
+        player.HighestBreak = Math.Max(player.CurrentBreak, player.HighestBreak);
 
         // reset break and isAtTable
         player.CurrentBreak = 0;
@@ -38,8 +51,12 @@ public class MissCommand(GameState _gameState): IUndoRedoCommand
         _gameState.PlayerAtTableId = _previousPlayerAtTableId;
         player = _gameState.GetPlayerAtTable();
         player.CurrentBreak = _previousBreak;
-        player.ConsecutiveFouls = 0;
+        player.ConsecutiveFouls = _previousFouls;
         player.IsAtTable = true;
+        player.BreakCount = _previousBreakCount;
+        player.BreakSum = _previousBreakSum;
+        player.AverageBreak = _previousAverageBreak;
+        player.HighestBreak = _previousHighestBreak;
 
         _gameState.RemoveLastBreakFromHistory();
     }

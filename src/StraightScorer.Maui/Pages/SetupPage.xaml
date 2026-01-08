@@ -16,26 +16,37 @@
     </ContentPage.Resources>
 
     <Grid
-        RowDefinitions="Auto,*,Auto"
+        RowDefinitions="Auto,Auto,*,Auto"
         RowSpacing="32"
-        Padding="8,16">
+        Padding="8,16,8,24">
+
+        <Label
+            Grid.Row="0"
+            Margin="4,0"
+            FontSize="Small"
+            Text="Setup your game of straight pool"/>
 
         <cntrl:LabeledNumericEntry
-            Grid.Row="0"
+            Grid.Row="1"
             LabelText="Set Target Score"
             Text="{Binding TargetScore}"
             IsValid="{Binding IsTargetScoreValid}"/>
 
         <Grid
-            Grid.Row="1"
-            RowDefinitions="Auto,*"
+            Grid.Row="2"
+            RowDefinitions="Auto,Auto,*"
             RowSpacing="8">
             <Label
                 Grid.Row="0"
                 Margin="4,0"
-                Text="Setup Players"/>
-            <CollectionView
+                Text="Set up Players"/>
+            <Label
                 Grid.Row="1"
+                Margin="4,0"
+                FontSize="12"
+                Text="You can add up to 10 players (because why not?). Set names and decide who starts. Each player can also get a head start. Swipe a player from the left to remove them."/>
+            <CollectionView
+                Grid.Row="2"
                 ItemsSource="{Binding PlayerSetups}"
                 SelectionMode="None">
                 <CollectionView.ItemsLayout>
@@ -100,17 +111,22 @@
                         Style="{StaticResource RoundIconButton}"
                         HorizontalOptions="Center"
                         ImageSource="plus_icon.png"
-                        Command="{Binding AddPlayerCommand}"/>
+                        Command="{Binding AddPlayerCommand}">
+                        <Button.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="Black"/>
+                        </Button.Behaviors>
+                    </Button>
                 </CollectionView.Footer>
             </CollectionView>
         </Grid>
 
         <Grid
-            Grid.Row="2"
+            Grid.Row="3"
             ColumnDefinitions="*,*"
             ColumnSpacing="16"
             VerticalOptions="End"
-            HorizontalOptions="Fill">
+            HorizontalOptions="Fill"
+            Padding="8,0">
             <Button
                 Grid.Column="0"
                 Grid.ColumnSpan="{Binding IsGameInProgress, Converter={StaticResource BoolColumnSpanConverter}}"

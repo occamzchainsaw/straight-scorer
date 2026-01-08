@@ -18,11 +18,22 @@
                 FontSize="Large"
                 VerticalOptions="Center"
                 HorizontalOptions="Start" />
-            <Button
-                Text="Close"
-                FontSize="Small"
-                HorizontalOptions="End"
-                Command="{Binding CloseEndGamePopupCommand}"/>
+            <Grid
+                ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="16">
+                <Button
+                    Grid.Column="0"
+                    Text="Save Result"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Command="{Binding SaveMatchResultCommand}"/>
+                <Button
+                    Grid.Column="2"
+                    Text="Close"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Command="{Binding CloseEndGamePopupCommand}"/>
+            </Grid>
         </VerticalStackLayout>
     </Border>
 </mopups:PopupPage>

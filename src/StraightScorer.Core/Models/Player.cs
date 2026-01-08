@@ -12,4 +12,10 @@ public partial class Player : ObservableObject
     [ObservableProperty] int _headStart;
     [ObservableProperty] int _consecutiveFouls;
     [ObservableProperty] bool _isAtTable;
+
+    [ObservableProperty] int _highestBreak;
+    [ObservableProperty] float _averageBreak;
+    [ObservableProperty] int _breakSum;
+    [ObservableProperty] int _breakCount;
+    [ObservableProperty] int _totalFouls;
 }

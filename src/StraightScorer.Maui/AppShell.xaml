@@ -19,57 +19,63 @@
     Shell.UnselectedColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}"
     Shell.DisabledColor="{AppThemeBinding Light={DynamicResource Gray400}, Dark={DynamicResource Gray600}}">
 
-    <Shell.ItemTemplate>
-        <DataTemplate>
-            <Grid ColumnDefinitions="0.2*, 0.8*" Padding="10" HeightRequest="50">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="Transparent" />
-                            </VisualState.Setters>
-                        </VisualState>
-                        <VisualState x:Name="Selected">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={DynamicResource Gray200}, Dark={DynamicResource Gray900}}" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-                <Image Source="{Binding Icon}"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"
-                       HeightRequest="24" WidthRequest="24">
-                    <Image.Behaviors>
-                        <toolkit:IconTintColorBehavior
-                            TintColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}" />
-                    </Image.Behaviors>
-                </Image>
-                <Label Grid.Column="1"
-                       Text="{Binding Title}"
-                       VerticalOptions="Center"
-                       FontAttributes="Bold"
-                       TextColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}" />
-            </Grid>
-        </DataTemplate>
-    </Shell.ItemTemplate>
+    <!--<Shell.ItemTemplate>
+    <DataTemplate>
+    <Grid ColumnDefinitions="0.2*, 0.8*" Padding="10" HeightRequest="50">
+    <VisualStateManager.VisualStateGroups>
+    <VisualStateGroup x:Name="CommonStates">
+    <VisualState x:Name="Normal">
+    <VisualState.Setters>
+    <Setter Property="BackgroundColor" Value="Transparent" />
+    </VisualState.Setters>
+    </VisualState>
+    <VisualState x:Name="Selected">
+    <VisualState.Setters>
+    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={DynamicResource Gray200}, Dark={DynamicResource Gray900}}" />
+    </VisualState.Setters>
+    </VisualState>
+    </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+    <Image Source="{Binding Icon}"
+    VerticalOptions="Center"
+    HorizontalOptions="Center"
+    HeightRequest="24" WidthRequest="24">
+    <Image.Behaviors>
+    <toolkit:IconTintColorBehavior
+    TintColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}" />
+    </Image.Behaviors>
+    </Image>
+    <Label Grid.Column="1"
+    Text="{Binding Title}"
+    VerticalOptions="Center"
+    FontAttributes="Bold"
+    TextColor="{AppThemeBinding Light={DynamicResource Black}, Dark={DynamicResource White}}" />
+    </Grid>
+    </DataTemplate>
+    </Shell.ItemTemplate>-->
 
     <ShellContent
-        Title="Game Setup"
+        Title="New Game Setup"
         Icon="game_setup_icon.png"
         ContentTemplate="{DataTemplate pages:SetupPage}"
         Route="setup" />
 
     <ShellContent
-        Title="Settings"
-        Icon="settings_icon.png"
-        ContentTemplate="{DataTemplate pages:SettingsPage}"
-        Route="settings" />
+        Title="Match History"
+        Icon="history_icon.png"
+        ContentTemplate="{DataTemplate pages:MatchHistoryPage}"
+        Route="history" />
 
     <ShellContent
         Title="Rules"
         Icon="rules_icon.png"
         ContentTemplate="{DataTemplate pages:RulesPage}"
         Route="rules" />
+
+    <ShellContent
+        Title="Settings"
+        Icon="settings_icon.png"
+        ContentTemplate="{DataTemplate pages:SettingsPage}"
+        Route="settings" />
 
 </Shell>

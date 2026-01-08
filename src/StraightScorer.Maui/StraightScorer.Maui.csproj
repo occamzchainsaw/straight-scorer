@@ -17,15 +17,16 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<!-- Display name -->
-		<ApplicationTitle>StraightScorer.Maui</ApplicationTitle>
+		<ApplicationTitle>Straight Scorer</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.straightscorer.maui</ApplicationId>
+		<ApplicationId>com.pachtelik.straightscorer</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
@@ -36,18 +37,24 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
 		<LangVersion>preview</LangVersion>
+
+		<Title>Straight Scorer</Title>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-android|AnyCPU'">
+		<AndroidLinkMode>SdkOnly</AndroidLinkMode>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#00838F" />
+		<MauiIcon Include="Resources\AppIcon\appiconfg.svg" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00838F" BaseSize="512,512" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 		
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -57,13 +64,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\appiconfg.svg" />
+	  <None Remove="Resources\Fonts\Montserrat-Bold.ttf" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Markdig" Version="0.44.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
-		<PackageReference Include="Mopups" Version="1.3.4" />
+		<PackageReference Include="Mopups" Version="1.3.3" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,12 +93,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiFont Update="Resources\Fonts\GoogleSans-Regular.ttf">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </MauiFont>
-	</ItemGroup>
-
-	<ItemGroup>
+	  <MauiXaml Update="Pages\MatchHistoryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\RulesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -9,6 +9,11 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
     private int _nextPlayerAtTableId;
     private int _previousScore;
     private int _previousBreak;
+    private int _previousHighestBreak;
+    private float _previousAverageBreak;
+    private int _previousBreakSum;
+    private int _previousBreakCount;
+    private int _previousTotalFouls;
     private int _previousConsecutiveFouls;
     private int _previousBallsOnTable;
     private int _previousRackNumber;
@@ -20,6 +25,11 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
         _nextPlayerAtTableId = _gameState.GetNextPlayerId();
         _previousScore = player.Score;
         _previousBreak = player.CurrentBreak;
+        _previousHighestBreak = player.HighestBreak;
+        _previousAverageBreak = player.AverageBreak;
+        _previousBreakSum = player.BreakSum;
+        _previousBreakCount = player.BreakCount;
+        _previousTotalFouls = player.TotalFouls;
         _previousConsecutiveFouls = player.ConsecutiveFouls;
         _previousBallsOnTable = _gameState.BallsOnTable;
         _previousRackNumber = _gameState.CurrentRack;
@@ -30,6 +40,7 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
             // third consecutive foul
             player.Score -= 16;
             player.ConsecutiveFouls = 0;
+            player.TotalFouls++;
             _gameState.AddBreakToHistory(player.Name, -16, BreakEndAction.ThirdFoul);
             if (_gameState.GameSettings.ResetRackOnThirdFoul)
             {
@@ -51,7 +62,15 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
                 player.Score--;
                 player.ConsecutiveFouls++;
                 _gameState.AddBreakToHistory(player.Name, player.CurrentBreak - 1, BreakEndAction.Foul);
+                if (player.ConsecutiveFouls < 2)
+                {
+                    player.BreakCount++;
+                    player.BreakSum += player.CurrentBreak;
+                    player.AverageBreak = player.BreakSum / player.BreakCount;
+                    player.HighestBreak = Math.Max(player.CurrentBreak, player.HighestBreak);
+                }
             }
+            player.TotalFouls++;
             player.CurrentBreak = 0;
         }
 
@@ -71,6 +90,11 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
         player = _gameState.GetPlayerAtTable();
         player.Score = _previousScore;
         player.CurrentBreak = _previousBreak;
+        player.HighestBreak = _previousHighestBreak;
+        player.AverageBreak = _previousAverageBreak;
+        player.BreakSum = _previousBreakSum;
+        player.BreakCount = _previousBreakCount;
+        player.TotalFouls = _previousTotalFouls;
         player.ConsecutiveFouls = _previousConsecutiveFouls;
         player.IsAtTable = true;
         if (_gameState.GameSettings.ResetRackOnThirdFoul)

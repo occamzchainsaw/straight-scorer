@@ -41,14 +41,17 @@ public static class MauiProgram
 		var settingsService = new SettingsService();
 		builder.Services.AddSingleton(settingsService);
 		builder.Services.AddSingleton<IGameSettings>(settingsService);
+		builder.Services.AddSingleton<IMatchHistoryService, SqliteMatchHistoryService>();
 
 		builder.Services.AddTransient<GamePage>();
 		builder.Services.AddTransient<SetupPage>();
 		builder.Services.AddTransient<SettingsPage>();
+		builder.Services.AddTransient<MatchHistoryPage>();
 
 		builder.Services.AddTransient<SetupViewModel>();
 		builder.Services.AddTransient<GameViewModel>();
 		builder.Services.AddTransient<SettingsViewModel>();
+		builder.Services.AddTransient<MatchHistoryViewModel>();
 
 		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("CleanEntry", (handler, view) =>
 		{

@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Mopups.Interfaces;
 using StraightScorer.Core.Models;
 using StraightScorer.Core.Services;
+using StraightScorer.Core.Services.Interfaces;
 using StraightScorer.Maui.Views.Popup;
 
 namespace StraightScorer.Maui.ViewModels;
@@ -11,11 +12,16 @@ namespace StraightScorer.Maui.ViewModels;
 public partial class GameViewModel : BaseViewModel
 {
     private readonly IPopupNavigation _popupNavigation;
+    private readonly IMatchHistoryService _matchHistoryService;
 
-    public GameViewModel(GameState gameState, IPopupNavigation popupNavigation)
+    public GameViewModel(
+        GameState gameState, 
+        IPopupNavigation popupNavigation,
+        IMatchHistoryService matchHistoryService)
     {
         CurrentGameState = gameState;
         _popupNavigation = popupNavigation;
+        _matchHistoryService = matchHistoryService;
 
         CurrentGameState.PropertyChanged += async (s, e) =>
         {
@@ -110,6 +116,24 @@ public partial class GameViewModel : BaseViewModel
     [RelayCommand]
     async Task CloseEndGamePopup()
     {
+        await _popupNavigation.PopAsync();
+    }
+
+    [RelayCommand]
+    async Task SaveMatchResult()
+    {
+        MatchResult result = new()
+        {
+            Players = [.. CurrentGameState.Players.Select(p => new PlayerMatchSummary()
+            {
+                Name = p.Name,
+                FinalScore = p.Score,
+                AverageBreak = p.AverageBreak,
+                HighestBreak = p.HighestBreak,
+                TotalFouls = p.TotalFouls,
+            })]
+        };
+        await _matchHistoryService.SaveMatchResultAsync(result);
         await _popupNavigation.PopAsync();
     }
 }

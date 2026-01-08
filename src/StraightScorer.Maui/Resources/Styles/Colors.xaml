@@ -5,12 +5,14 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#4527A0</Color>
-    <Color x:Key="PrimaryDark">#9575CD</Color>
+    <Color x:Key="Primary">#00838F</Color>
+    <Color x:Key="PrimarySemi">#88006064</Color>
+    <Color x:Key="PrimaryDark">#00ACC1</Color>
+    <Color x:Key="PrimarySemiDark">#8800ACC1</Color>
     <Color x:Key="PrimaryDarkText">#141414</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="Secondary">#90CAF9</Color>
+    <Color x:Key="SecondaryDarkText">#1565C0</Color>
+    <Color x:Key="Tertiary">#1976D2</Color>
     <Color x:Key="Text">Black</Color>
     <Color x:Key="TextDark">White</Color>
     <Color x:Key="LinkText">#1A237E</Color>
@@ -19,8 +21,8 @@
     <Color x:Key="TableBackground">#339E9E9E</Color>
     <Color x:Key="TableBackgroundDark">#11E0E0E0</Color>
 
-    <Color x:Key="Accent">#4527A0</Color>
-    <Color x:Key="AccentDark">#9575CD</Color>
+    <Color x:Key="Accent">#00838F</Color>
+    <Color x:Key="AccentDark">#00ACC1</Color>
 
     <Color x:Key="Red">#C62828</Color>
     <Color x:Key="RedSemi">#AAD32F2F</Color>
@@ -114,6 +116,15 @@
     <Color x:Key="Indigo400">#5C6BC0</Color>
     <Color x:Key="Indigo300">#7986CB</Color>
     <Color x:Key="Indigo200">#9FA8DA</Color>
+
+    <Color x:Key="Cyan900">#006064</Color>
+    <Color x:Key="Cyan800">#00838F</Color>
+    <Color x:Key="Cyan700">#0097A7</Color>
+    <Color x:Key="Cyan600">#00ACC1</Color>
+    <Color x:Key="Cyan500">#00BCD4</Color>
+    <Color x:Key="Cyan400">#26C6DA</Color>
+    <Color x:Key="Cyan300">#4DD0E1</Color>
+    <Color x:Key="Cyan200">#80DEEA</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

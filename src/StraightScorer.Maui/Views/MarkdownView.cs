@@ -10,6 +10,7 @@ public class MarkdownView : VerticalStackLayout
 {
     // Dictionary to track heading IDs for internal anchor links
     private readonly Dictionary<string, Element> _headingMap = new();
+    private AppTheme? _lastRenderedTheme;
 
     public static readonly BindableProperty MarkdownProperty =
         BindableProperty.Create(nameof(Markdown), typeof(string), typeof(MarkdownView), propertyChanged: OnMarkdownChanged);
@@ -18,6 +19,37 @@ public class MarkdownView : VerticalStackLayout
     {
         get => (string)GetValue(MarkdownProperty);
         set => SetValue(MarkdownProperty, value);
+    }
+
+    public MarkdownView()
+    {
+        // Listen for theme changes to trigger a re-render
+        Loaded += (s, e) =>
+        {
+            if (Application.Current != null)
+            {
+                // 1. Subscribe to live changes while we are visible
+                Application.Current.RequestedThemeChanged += OnThemeChanged;
+
+                // 2. Catch up: If the theme changed while we were unloaded, re-render now
+                if (_lastRenderedTheme != null && _lastRenderedTheme != Application.Current.RequestedTheme)
+                {
+                    RenderMarkdown(Markdown);
+                }
+            }
+        };
+
+        Unloaded += (s, e) =>
+        {
+            if (Application.Current != null)
+                Application.Current.RequestedThemeChanged -= OnThemeChanged;
+        };
+    }
+
+    private void OnThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    {
+        // Re-render on the main thread when the theme changes
+        MainThread.BeginInvokeOnMainThread(() => RenderMarkdown(Markdown));
     }
 
     private static void OnMarkdownChanged(BindableObject bindable, object oldValue, object newValue)
@@ -30,6 +62,11 @@ public class MarkdownView : VerticalStackLayout
 
     private void RenderMarkdown(string md)
     {
+        if (Application.Current != null)
+        {
+            _lastRenderedTheme = Application.Current.RequestedTheme;
+        }
+
         Children.Clear();
         _headingMap.Clear();
         Spacing = 10;

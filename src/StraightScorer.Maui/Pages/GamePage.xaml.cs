@@ -8,5 +8,15 @@ public partial class GamePage : ContentPage
 	{
         BindingContext = vm;
 		InitializeComponent();
+
+		Loaded += (s, e) =>
+		{
+			DeviceDisplay.Current.KeepScreenOn = true;
+		};
+
+		Unloaded += (s, e) =>
+		{
+			DeviceDisplay.Current.KeepScreenOn = false;
+		};
 	}
 }
