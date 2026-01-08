@@ -66,7 +66,7 @@ public class FoulCommand(GameState _gameState) : IUndoRedoCommand
                 {
                     player.BreakCount++;
                     player.BreakSum += player.CurrentBreak;
-                    player.AverageBreak = player.BreakSum / player.BreakCount;
+                    player.AverageBreak = (float)player.BreakSum / (float)player.BreakCount;
                     player.HighestBreak = Math.Max(player.CurrentBreak, player.HighestBreak);
                 }
             }

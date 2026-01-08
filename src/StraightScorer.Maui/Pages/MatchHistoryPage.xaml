@@ -97,7 +97,7 @@
                                                             VerticalOptions="Center"
                                                             HorizontalOptions="Center"
                                                             FontSize="Small"
-                                                            Text="{Binding AverageBreak, StringFormat='Avg: {0}'}"/>
+                                                            Text="{Binding AverageBreak, StringFormat='Avg: {0:F1}'}"/>
                                                     </Border>
                                                     <Border
                                                         Grid.Column="2"
