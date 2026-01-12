@@ -1,6 +1,6 @@
 # Straight Scorer
 
-Straight Scorer is a dedicated scoring application for **14.1 Continuous Pool (Straight Pool)**. Built using **.NET MAUI**, it provides a streamlined interface to track match progress, manage rack transitions, and maintain a detailed history of breaks and match results. Curently supports Android and Windows.
+Straight Scorer is a dedicated scoring application for **14.1 Continuous Pool (Straight Pool)**. Built using **.NET MAUI**, it provides a streamlined interface to track match progress, manage rack transitions, and maintain a detailed history of breaks and match results. Curently supports Android, with plans for Windows.
 
 There are plenty of scoring apps for Straight Pool around, but when my friend and I tried to find one, it turned out many were overly complicated or had some simple features missing/not working. I decided I'll have a go at making a scoring app myself and this is the result. Practically no fluff, easy to use and has a few 'quality of life' features. While I plan to put Straight Scorer up on the Google Play Store, I want to, first of all, share the code, because I believe open-source software is important and if I'm able to contribute to the community, at least a little bit, I should.
 
@@ -58,6 +58,13 @@ The official WPA rules are included right in the application, so if you ever nee
 <img width="356" height="800" alt="settings_page" src="https://github.com/user-attachments/assets/99f92661-fa39-461a-83bf-ed1ea4cb7783" />
 
 Currently, the settings are very simple. You can select the app's theme and there is one game setting. I included this setting, because this seems to be fairly niche rule and it is very punishing. If you want to learn more, check sections 12 and 12.1 of the rules :)
+
+## Installation
+
+1. Download the .apk file from [Releases](https://github.com/occamzchainsaw/straight-scorer/releases) **or** Build the .apk yourself and load it onto your phone.
+2. Locate the .apk in your phone's storage and open it.
+3. If you haven't allowed it previously, you will be prompted to enable installing unknown apps, and installing apps from this location (wherever the .apk is located).
+4. Once the installation is complete, it will appear in your app drawer or on your home screen, depending on your settings.
 
 ## Privacy
 
